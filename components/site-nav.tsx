@@ -1,4 +1,3 @@
-// components/site-nav.tsx
 "use client";
 
 import Link from "next/link";
@@ -9,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { site } from "@/data/site";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/container";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -25,7 +25,7 @@ export function SiteNav() {
   const linkedin = site.socials.find((s) => s.label === "LinkedIn");
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/55">
       <Container className="flex h-14 items-center justify-between">
         <Link href="/" className="font-medium tracking-tight">
           {site.name}
@@ -53,10 +53,12 @@ export function SiteNav() {
             className="sm:hidden"
             aria-label="Open menu"
             aria-expanded={open}
-            onClick={() => setOpen(true)}
+            onClick={() => setOpen((v) => !v)}
           >
             <Menu />
           </Button>
+
+          <ThemeToggle />
 
           <Button variant="outline" asChild className="hidden sm:inline-flex">
             <a href={`mailto:${site.email}`}>Email</a>
@@ -90,9 +92,17 @@ export function SiteNav() {
           <div className="fixed inset-x-0 top-0 z-50 border-b bg-background">
             <Container className="flex h-14 items-center justify-between">
               <span className="font-medium tracking-tight">{site.name}</span>
-              <Button variant="outline" size="icon" aria-label="Close menu" onClick={() => setOpen(false)}>
-                <X />
-              </Button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Close menu"
+                  onClick={() => setOpen(false)}
+                >
+                  <X />
+                </Button>
+              </div>
             </Container>
           </div>
 
