@@ -90,14 +90,9 @@
             </div>
 
             <div className="flex items-center gap-2">
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="soft-pill soft-pill-sm"
-              >
+              <Link href="/resume" className="soft-pill soft-pill-sm">
                 Resume
-              </a>
+              </Link>
 
               <button
                 type="button"

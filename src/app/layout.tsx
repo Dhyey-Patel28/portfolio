@@ -34,7 +34,12 @@ export const metadata: Metadata = {
     "Machine Learning",
   ],
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
   openGraph: {
     title: "Dhyey Patel — Software Developer",

@@ -1134,7 +1134,7 @@ export default function Home() {
           </p>
 
           <h1
-            className="break-keep text-[clamp(3.2rem,13vw,10.5rem)] font-medium leading-[0.86] tracking-[-0.085em] text-stone-950"
+            className="break-keep text-[clamp(3.2rem,10.5vw,9rem)] font-medium leading-[0.86] tracking-[-0.085em] text-stone-950"
             aria-label="Creative software engineer building useful systems."
           >
             <span className="block">
