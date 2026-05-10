@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dhyey Patel Portfolio
 
-## Getting Started
+A Next.js portfolio for software engineering roles, organized around professional experience, shipped projects, and active lab work.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js
+- TypeScript
+- Tailwind CSS
+- GSAP
+- Framer Motion
+- Lucide React
+
+## Information architecture
+
+```text
+/
+  Homepage overview and navigation
+
+/about
+  Personal background, education, credentials, and interests
+
+/experience
+  Professional experience index
+
+/experience/[slug]
+  Role detail pages for EMU and Givaudan
+
+/projects
+  Shipped and recruiter-safe project index
+
+/projects/[slug]
+  Project case-study pages
+
+/lab
+  Active builds and experiments
+
+/lab/[slug]
+  Notebook-style pages for in-progress ideas
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+src/app
+src/components
+src/lib
+public
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Key content models:
 
-## Learn More
+```text
+src/lib/experience.ts
+src/lib/projects.ts
+src/lib/lab.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+Shared UI:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+src/components/visual-gallery.tsx
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Local development
 
-## Deploy on Vercel
+```bash
+npm install
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+http://localhost:3000
+```
+
+## Quality checks
+
+```bash
+npm run lint
+npm run build
+```
+
+## Notes
+
+- The homepage is intentionally an overview, not a full resume.
+- Experience, Projects, and Lab are separate on purpose because they represent different kinds of proof.
+- Visual proof images are only used where they strengthen the story; decorative screenshots are intentionally avoided.

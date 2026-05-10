@@ -1,0 +1,345 @@
+export type ProjectLink = {
+  label: string;
+  href: string;
+};
+
+export type ProjectReviewGuide = {
+  title: string;
+  summary: string;
+  steps: string[];
+};
+
+export type ProjectVisual = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
+export type ProjectItem = {
+  slug: string;
+  title: string;
+  type: string;
+  status: "Featured" | "Shipped" | "Research" | "Systems" | "Current";
+  summary: string;
+  proof: string[];
+  stack: string[];
+  links?: ProjectLink[];
+  problem: string;
+  build: string;
+  takeaway: string;
+  next?: string;
+  reviewGuide: ProjectReviewGuide;
+  visuals?: ProjectVisual[];
+};
+
+export const featuredProjects: ProjectItem[] = [
+  {
+    slug: "visual-data-mining-dashboard",
+    title: "Visual Data Mining Dashboard",
+    type: "Data visualization · Dashboard design",
+    status: "Featured",
+    summary:
+      "Three dataset-specific dashboards comparing how visualization choices reveal structure across categorical, rule-based, and mixed datasets.",
+    proof: [
+      "Designed separate dashboard experiences for Zoo, KRK chess endgames, and Census-Income datasets.",
+      "Matched visualization choices to the structure of each dataset instead of forcing one generic dashboard pattern.",
+      "Built a public, recruiter-friendly demo that makes the project easy to inspect quickly.",
+    ],
+    stack: ["React", "Data Visualization", "Dashboard Design"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://viz-dm.vercel.app/",
+      },
+    ],
+    problem:
+      "Data dashboards often become collections of generic charts instead of tools that reflect the structure of the dataset.",
+    build:
+      "I built three dashboard experiences so categorical animal traits, chess endgame states, and demographic income patterns each received a more appropriate visual treatment.",
+    takeaway:
+      "This project shows product thinking around data: not just plotting information, but designing dashboards around the questions a user might ask.",
+    reviewGuide: {
+      title: "If you only have a minute",
+      summary:
+        "Open the live demo and compare how the dashboard changes with the kind of data being explored.",
+      steps: [
+        "Open Zoo, KRK Chess, and Census-Income rather than judging one dashboard in isolation.",
+        "Notice that categorical traits, rule-based positions, and mixed demographic data are handled with different visual decisions.",
+        "The point of the project is not one flashy chart; it is choosing a fitting dashboard structure for each dataset.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/viz-dm-krk-dashboard.jpg",
+        alt: "Visual Data Mining Dashboard showing the KRK chess endgame tree view.",
+        caption:
+          "KRK chess view: the dashboard changes shape around the data instead of forcing every dataset into the same chart pattern.",
+      },
+    ],
+  },
+  {
+    slug: "macon-banquet",
+    title: "Macon Banquet",
+    type: "Full-stack product · Next.js · TypeScript",
+    status: "Featured",
+    summary:
+      "A polished event-venue website with booking-oriented flows, responsive UI, and production deployment.",
+    proof: [
+      "Built a complete public-facing product experience rather than a single isolated component.",
+      "Combined responsive layout, motion, and booking-oriented information architecture.",
+      "Shipped both a live deployment and a public codebase.",
+    ],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://macon-banquet.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/macon-banquet",
+      },
+    ],
+    problem:
+      "Venue websites can easily become static brochures. I wanted this to feel like a product experience centered around trust, discovery, and booking intent.",
+    build:
+      "I built a responsive event-venue website with clear information hierarchy, conversion-focused calls to action, motion details, and a production deployment.",
+    takeaway:
+      "This project shows frontend product polish: layout, hierarchy, interaction, responsiveness, and a complete deployed experience.",
+    reviewGuide: {
+      title: "What to look at first",
+      summary:
+        "Treat this like a product review, not a code sample.",
+      steps: [
+        "Scan the landing page from top to bottom and watch how it moves from atmosphere to trust to booking intent.",
+        "Resize the page and check how the layout, spacing, and navigation adapt across screen sizes.",
+        "Use the GitHub link if you want to inspect how the polished front-end experience is organized in code.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/macon-banquet.jpg",
+        alt: "Macon Banquet homepage hero section with event venue photography and booking call to action.",
+        caption:
+          "The homepage is designed around atmosphere first, then booking intent: the product sells the venue before asking for conversion.",
+      },
+    ],
+  },
+  {
+    slug: "automata-workbench",
+    title: "Automata Workbench",
+    type: "Algorithms · Interactive UI · TypeScript",
+    status: "Featured",
+    summary:
+      "An extended finite-automata workspace focused on cleaner workflows for building, converting, and exploring state machines.",
+    proof: [
+      "Extended a finite-automata workspace with regex → automaton, NFA → DFA, minimization, and DFA → regex workflows.",
+      "Improved the dashboard UX by reducing clutter and grouping secondary tools.",
+      "Kept clear attribution to the upstream FSM Engine project while making the fork’s changes explicit.",
+    ],
+    stack: ["React", "TypeScript", "Vite", "React Konva", "Jotai"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://automataworkbench.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/automata-workbench",
+      },
+    ],
+    problem:
+      "Formal-language tools are often either too abstract or too cluttered, which makes it harder to explore conversions and state-machine behavior interactively.",
+    build:
+      "Starting from the open-source FSM Engine project, I extended the experience around automata-theory workflows: cleaner dashboard behavior, regex → automaton tools, NFA → DFA conversion, minimization, DFA → regex export, and clearer attribution.",
+    takeaway:
+      "This project shows both algorithmic understanding and engineering judgment: I can extend an existing codebase honestly, improve the UX, and make complex CS workflows easier to inspect.",
+    reviewGuide: {
+      title: "Try this path",
+      summary:
+        "Use the tool as an automata workflow, not only as a drawing canvas.",
+      steps: [
+        "Create or load a small machine, then use the conversion tools instead of stopping at the editor.",
+        "Walk through NFA → DFA conversion and DFA minimization to see the algorithmic workflows exposed in the UI.",
+        "If reviewing the code, compare the fork’s added workflow features and UX changes against the upstream attribution notes.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/automata-workbench.jpg",
+        alt: "Automata Workbench interface showing a state machine and automata conversion tools.",
+        caption:
+          "The added workflow tools sit directly beside the canvas, making conversion and minimization part of the interaction rather than hidden theory.",
+      },
+    ],
+  },
+];
+
+export const moreProjects: ProjectItem[] = [
+  {
+    slug: "seglungai",
+    title: "SegLungAI",
+    type: "ML engineering · Computer vision",
+    status: "Research",
+    summary:
+      "An end-to-end neonatal lung MRI segmentation pipeline using a U-Net with a ResNet backbone.",
+    proof: [
+      "Built preprocessing, training, evaluation, and inference workflows for neonatal lung MRI segmentation.",
+      "Evaluated performance with IoU and Dice, reaching about 0.90 IoU.",
+      "Packaged reproducible training scripts and visual outputs to support repeatable experimentation.",
+    ],
+    stack: ["PyTorch", "NumPy", "scikit-learn", "U-Net", "ResNet"],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/SegLungAI",
+      },
+    ],
+    problem:
+      "Medical-image segmentation work becomes fragile when preprocessing, training, evaluation, and inference live as disconnected experiments.",
+    build:
+      "I built a reproducible segmentation pipeline with dataset handling, model training, evaluation metrics, and inference workflows for neonatal lung MRI scans.",
+    takeaway:
+      "This project shows ML engineering discipline: repeatability, evaluation, and workflow design matter as much as the model itself.",
+    reviewGuide: {
+      title: "Start with the pipeline",
+      summary:
+        "This project is strongest when reviewed as a reproducible ML system, not just a model score.",
+      steps: [
+        "Open the repository and inspect how preprocessing, training, evaluation, and inference are separated.",
+        "Look for the evaluation outputs and how IoU / Dice are used to judge segmentation quality.",
+        "The main signal is repeatability: this is packaged as a workflow rather than a one-off notebook experiment.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/seglungai.jpg",
+        alt: "SegLungAI research poster showing neonatal lung MRI segmentation architecture, metrics, and outputs.",
+        caption:
+          "Poster view of the pipeline, evaluation metrics, and segmentation outputs used to explain the full research workflow.",
+      },
+    ],
+  },
+  {
+    slug: "birdclef-2026",
+    title: "BirdCLEF 2026",
+    type: "Audio ML · Multilabel classification",
+    status: "Current",
+    summary:
+      "A multilabel bird-audio classification pipeline using mel spectrograms, EfficientNet-B2, weighted sampling, and SpecAugment.",
+    proof: [
+      "Reached a best validation macro-AUC of 0.8725 on a 234-class setup.",
+      "Built a focal-clip and soundscape training workflow around mel spectrogram generation and augmentation.",
+      "Currently exploring speech-model embeddings and ensemble strategies to improve robustness.",
+    ],
+    stack: ["PyTorch", "timm", "librosa", "EfficientNet-B2", "Audio ML"],
+    links: [
+      {
+        label: "Kaggle notebook",
+        href: "https://www.kaggle.com/code/dhyey654/birdclef2026-starter",
+      },
+    ],
+    problem:
+      "Bird-audio classification is difficult because labels are multilabel, classes are imbalanced, and long recordings contain sparse useful signals.",
+    build:
+      "I built a training pipeline using mel spectrograms, EfficientNet-B2, weighted sampling, and SpecAugment, then validated on focal clips and soundscapes.",
+    takeaway:
+      "This project shows current ML work in motion: I am iterating on baselines, testing stronger representations, and treating improvement as an engineering process rather than a one-shot model run.",
+    next:
+      "I am currently testing speech-model embeddings, increasing the inference window, strengthening the baseline, and planning an ensemble that combines complementary model behavior.",
+    reviewGuide: {
+      title: "Read this as active ML work",
+      summary:
+        "The value here is the iteration path, not pretending the competition is finished.",
+      steps: [
+        "Open the Kaggle notebook and look at the data-prep → mel-spectrogram → training flow.",
+        "Notice the class imbalance handling, augmentation choices, and validation setup behind the 0.8725 macro-AUC baseline.",
+        "Then read the next-step section to see how I am testing stronger representations instead of stopping at the first working model.",
+      ],
+    },
+  },
+  {
+    slug: "drone-flight-data-analytics",
+    title: "Drone Flight Data Analytics",
+    type: "Data engineering · Streaming pipeline",
+    status: "Systems",
+    summary:
+      "A telemetry analytics pipeline that ingests drone data, processes streams, persists outputs, and produces reviewable flight metrics.",
+    proof: [
+      "Built a Kafka → Spark → S3 telemetry pipeline on AWS.",
+      "Processed flight streams into structured datasets and generated review metrics such as speed, altitude, and battery trends.",
+      "Automated repeatable runs and documented the architecture and demo workflow.",
+    ],
+    stack: ["Python", "Kafka", "Spark", "AWS EC2", "S3"],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/drone-flight-data-analytics",
+      },
+    ],
+    problem:
+      "Raw telemetry is difficult to review without a repeatable path from ingestion to cleaned data and useful metrics.",
+    build:
+      "I built a streaming pipeline on AWS with Kafka for ingestion, Spark for processing, and S3 for persisted outputs, then automated repeatable job runs and generated flight-review metrics.",
+    takeaway:
+      "This project shows data-engineering range: streaming, cloud infrastructure, processing, persistence, and operational repeatability.",
+    reviewGuide: {
+      title: "Review the architecture first",
+      summary:
+        "The strongest signal is the end-to-end pipeline, not any one plot.",
+      steps: [
+        "Start with the README or architecture notes to follow the data path from drone telemetry to persisted output.",
+        "Look for Kafka ingestion, Spark processing, S3 persistence, and the generated review metrics.",
+        "The important question is whether the pipeline can be run and understood repeatedly, not whether one chart looks impressive.",
+      ],
+    },
+  },
+  {
+    slug: "job-fair-match",
+    title: "Job Fair Match",
+    type: "Full-stack product · Matching workflow",
+    status: "Shipped",
+    summary:
+      "A swipe-based job matching platform with browse → swipe → match flows, protected actions, and relational backend modeling.",
+    proof: [
+      "Designed a normalized PostgreSQL schema for users, companies/jobs, swipes, and matches.",
+      "Implemented APIs for profile creation, swipe actions, and match generation with validation and reliable UI state handling.",
+      "Added authentication and authorization for protected actions such as login, swipes, and match retrieval.",
+    ],
+    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "NeonDB"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://job-fair-match.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/job-matching-platform",
+      },
+    ],
+    problem:
+      "Matching products become unreliable quickly when user state, swipe history, and match generation are not modeled carefully.",
+    build:
+      "I built responsive browse → swipe → match flows, a normalized relational schema, backend APIs, and protected user actions with authentication and authorization.",
+    takeaway:
+      "This project shows product flow design, backend correctness, and data modeling for a real application pattern.",
+    reviewGuide: {
+      title: "Follow the data model",
+      summary:
+        "The strongest signal here is the backend correctness behind a familiar swipe-style interface.",
+      steps: [
+        "Start with the GitHub repository and inspect the schema for users, jobs, swipes, and matches.",
+        "Then review how the APIs protect actions and prevent the UI from drifting away from backend state.",
+        "Use the live demo as product context, but judge the project by the modeling and flow correctness underneath it.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/job-fair-match.jpg",
+        alt: "Job Fair Match landing page with swipe-based job discovery interface.",
+        caption:
+          "The polished landing page communicates the swipe-first product idea before the deeper backend schema and auth work take over.",
+      },
+    ],
+  },
+];
