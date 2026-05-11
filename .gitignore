@@ -45,3 +45,5 @@ agents.md
 claude.md
 AGENTS.md
 CLAUDE.md
+.vercel
+.env*.local

@@ -44,16 +44,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Dhyey Patel — Software Developer",
     description:
-      "Full-stack tools, data systems, and applied ML projects by Dhyey Patel.",
+      "Software developer building full-stack tools, data-rich interfaces, and practical ML systems through professional experience, shipped projects, and active technical work.",
     url: "https://dhyey-patel.vercel.app",
     siteName: "Dhyey Patel",
     type: "website",
     images: [
       {
-        url: "/opengraph-image",
+        url: "/opengraph-image.png",
         width: 1200,
-        height: 630,
-        alt: "Dhyey Patel — Software Developer",
+        height: 627,
+        alt: "Dhyey Patel portfolio homepage hero",
       },
     ],
   },
@@ -61,8 +61,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dhyey Patel — Software Developer",
     description:
-      "Full-stack tools, data systems, and applied ML projects by Dhyey Patel.",
-    images: ["/opengraph-image"],
+      "Software developer building full-stack tools, data-rich interfaces, and practical ML systems through professional experience, shipped projects, and active technical work.",
+    images: ["/opengraph-image.png"],
   },
 };
 
