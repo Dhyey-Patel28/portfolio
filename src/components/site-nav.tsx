@@ -90,9 +90,24 @@
             </div>
 
             <div className="flex items-center gap-2">
-              <Link href="/resume" className="soft-pill soft-pill-sm">
-                Resume
-              </Link>
+              {/* Phone + tablet: open the PDF directly in a new tab */}
+              <span className="xl:hidden">
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="soft-pill soft-pill-sm"
+                >
+                  Resume
+                </a>
+              </span>
+
+              {/* Desktop: open the branded resume page */}
+              <span className="hidden xl:inline-flex">
+                <Link href="/resume" className="soft-pill soft-pill-sm">
+                  Resume
+                </Link>
+              </span>
 
               <button
                 type="button"
