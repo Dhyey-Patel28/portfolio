@@ -103,45 +103,45 @@ export const featuredProjects: ProjectItem[] = [
   },
   {
     slug: "visual-data-mining-dashboard",
-    title: "KRK Endgame Explorer",
-    type: "Algorithms · Data visualization · Interactive UI",
+    title: "Visual Data Mining Showcase",
+    type: "Data visualization · Dashboard design · Interactive analysis",
     status: "Featured",
     summary:
-      "An interactive chess endgame visualization for exploring king-rook-king positions, legal-move patterns, heatmaps, and state-space behavior.",
+      "A three-dashboard visualization showcase comparing how different interface patterns fit Zoo, KRK chess endgame, and Census-Income datasets.",
     proof: [
-      "Built a public visualization around the king-rook-king chess endgame, turning abstract state-space data into interactive board-native views.",
-      "Designed multiple views for understanding position patterns, move behavior, heatmaps, piece journeys, and endgame progression.",
-      "Created a recruiter-friendly live demo that shows algorithmic reasoning and visualization design without requiring the reviewer to read code first.",
+      "Built separate dashboards for categorical Zoo data, rule-based KRK chess endgames, and mixed demographic Census-Income data.",
+      "Matched each dashboard to the structure of its dataset instead of forcing one generic chart layout across every problem.",
+      "Shipped a public demo where reviewers can compare how visualization decisions change across categorical, rule-based, and mixed data.",
     ],
-    stack: ["React", "Data Visualization", "Algorithms", "Interactive UI"],
+    stack: ["React", "Data Visualization", "Dashboard Design", "Interactive UI"],
     links: [
       {
         label: "Live demo",
-        href: "https://viz-dm.vercel.app/krk/",
+        href: "https://viz-dm.vercel.app/",
       },
     ],
     problem:
-      "Chess endgame datasets can be difficult to understand from raw tables or static charts because the meaning depends on board position, legal movement, and state transitions.",
+      "Data visualization projects often become collections of charts that ignore the underlying shape of the dataset. I wanted to show how interface choices should change when the data changes.",
     build:
-      "I built an interactive KRK endgame explorer that presents the same data through board views, heatmaps, movement patterns, and state-space explanations so users can reason about the endgame visually.",
+      "I built a dashboard showcase with three dataset-specific experiences: Zoo for categorical feature exploration, KRK chess for rule-based endgame states, and Census-Income for mixed demographic and work-related factors.",
     takeaway:
-      "This project shows that I can turn algorithmic data into a usable interface: the important part was not just plotting values, but choosing visual structures that match the rules and mental model of chess.",
+      "This project shows data-product judgment: the important part was not simply plotting values, but choosing visual structures that help users ask better questions about each dataset.",
     reviewGuide: {
-      title: "Review the KRK flow",
+      title: "Compare the three dashboards",
       summary:
-        "Open the KRK demo and treat it as an interactive explanation of an algorithmic state space.",
+        "Open the live demo and move through Zoo, KRK Chess, and Census-Income instead of judging the project from only one screen.",
       steps: [
-        "Start with the board-based views so the state-space data has concrete chess meaning.",
-        "Move through the heatmap and journey-style visualizations to see how patterns emerge across positions.",
-        "Judge the project by how the interface makes abstract endgame data easier to inspect, not only by the chart styling.",
+        "Start with the landing page to see the three datasets and why they need different visualization approaches.",
+        "Open KRK Chess to inspect the board-native and state-space views for rule-based data.",
+        "Compare it with Zoo and Census-Income to see how the interface changes for categorical and mixed demographic data.",
       ],
     },
     visuals: [
       {
         src: "/viz-dm-krk-dashboard.jpg",
-        alt: "KRK Endgame Explorer showing a chess endgame visualization and state-space dashboard.",
+        alt: "Visual Data Mining Showcase showing the KRK chess dashboard within a multi-dashboard visualization project.",
         caption:
-          "KRK view: the dashboard uses board-native and state-space visualizations to make chess endgame patterns easier to inspect.",
+          "KRK is one view inside the broader showcase: Zoo, KRK Chess, and Census-Income each use a different dashboard structure based on the dataset.",
       },
     ],
   },

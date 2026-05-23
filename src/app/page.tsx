@@ -1252,7 +1252,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Projects"
             title="Shipped pieces of how I think."
-            body="A focused snapshot of my range: product-minded frontend, ML research, and data-engineering systems. The full project archive stays one click away."
+            body="A focused snapshot of my range: polished product engineering, data visualization, and interactive CS tools. The full project archive stays one click away."
             action={
               <PillLink href="/projects">
                 View projects
