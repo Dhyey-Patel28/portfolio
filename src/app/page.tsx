@@ -20,10 +20,23 @@ import {
   Mail,
 } from "lucide-react";
 import { experienceItems } from "@/lib/experience";
-import { featuredProjects } from "@/lib/projects";
+import { featuredProjects, moreProjects, type ProjectItem } from "@/lib/projects";
 import { labItems } from "@/lib/lab";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
+
+const HOMEPAGE_PROJECT_SLUGS = [
+  "atmosphere-atlas",
+  "visual-data-mining-dashboard",
+  "automata-workbench",
+] as const;
+
+const allProjects = [...featuredProjects, ...moreProjects];
+
+const homepageProjects = HOMEPAGE_PROJECT_SLUGS.map((slug) =>
+  allProjects.find((project) => project.slug === slug)
+).filter((project): project is ProjectItem => Boolean(project));
+
 
 function ExplodingWord({
   text,
@@ -885,7 +898,7 @@ function ProjectCard({
   item,
   index,
 }: {
-  item: (typeof featuredProjects)[number];
+  item: ProjectItem;
   index: number;
 }) {
   return (
@@ -1239,7 +1252,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Projects"
             title="Shipped pieces of how I think."
-            body="These are the recruiter-safe projects I would lead with: visual, usable, and clear enough to understand without reading my entire resume."
+            body="A focused snapshot of my range: product-minded frontend, ML research, and data-engineering systems. The full project archive stays one click away."
             action={
               <PillLink href="/projects">
                 View projects
@@ -1248,8 +1261,8 @@ export default function Home() {
             }
           />
 
-          <div className="grid gap-5 lg:grid-cols-3">
-            {featuredProjects.map((item, index) => (
+          <div className="grid gap-5 md:grid-cols-3">
+            {homepageProjects.map((item, index) => (
               <ProjectCard key={item.slug} item={item} index={index} />
             ))}
           </div>

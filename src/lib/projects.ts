@@ -34,46 +34,114 @@ export type ProjectItem = {
 
 export const featuredProjects: ProjectItem[] = [
   {
-    slug: "visual-data-mining-dashboard",
-    title: "Visual Data Mining Dashboard",
-    type: "Data visualization · Dashboard design",
+    slug: "atmosphere-atlas",
+    title: "Atmosphere Atlas",
+    type: "Frontend product · Weather intelligence · 3D UI",
     status: "Featured",
     summary:
-      "Three dataset-specific dashboards comparing how visualization choices reveal structure across categorical, rule-based, and mixed datasets.",
+      "A deployed weather intelligence dashboard that turns live weather data into an interactive 3D globe, saved places, drop-pin lookup, shareable weather views, and human-centered daily guidance.",
     proof: [
-      "Designed separate dashboard experiences for Zoo, KRK chess endgames, and Census-Income datasets.",
-      "Matched visualization choices to the structure of each dataset instead of forcing one generic dashboard pattern.",
-      "Built a public, recruiter-friendly demo that makes the project easy to inspect quickly.",
+      "Shipped a full React, Vite, and TypeScript app with city search, current weather, air quality, saved places, drop pins, share links, unit conversion, and a 5-day outlook.",
+      "Designed the dashboard around human-centered guidance, keeping the main panel calm while moving raw metrics into secondary sections.",
+      "Optimized the production experience by lazy-loading the heavy 3D globe bundle, self-hosting globe textures, and adding a graceful WebGL fallback.",
     ],
-    stack: ["React", "Data Visualization", "Dashboard Design"],
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Three.js", "Open-Meteo"],
     links: [
       {
         label: "Live demo",
-        href: "https://viz-dm.vercel.app/",
+        href: "https://atmosphere-atlas.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/atmosphere-atlas",
       },
     ],
     problem:
-      "Data dashboards often become collections of generic charts instead of tools that reflect the structure of the dataset.",
+      "Most weather apps expose plenty of numbers but do not explain what those conditions mean for everyday decisions. I wanted to build a dashboard that makes weather feel visual, personal, and easier to act on.",
     build:
-      "I built three dashboard experiences so categorical animal traits, chess endgame states, and demographic income patterns each received a more appropriate visual treatment.",
+      "I built a polished weather intelligence app around a 3D globe, Open-Meteo APIs, local persistence, shareable coordinate URLs, saved places, drop-pin lookup, air quality, activity planning, and a simplified weather panel that prioritizes guidance before raw metrics.",
     takeaway:
-      "This project shows product thinking around data: not just plotting information, but designing dashboards around the questions a user might ask.",
+      "This project shows product-oriented frontend engineering: API integration, interactive 3D UI, performance optimization, responsive design, local persistence, and UX decisions that reduce cognitive load.",
+    next:
+      "A future version could add an optional Journey Mode for recently visited places, plus reverse geocoding for friendlier dropped-pin labels.",
     reviewGuide: {
-      title: "If you only have a minute",
+      title: "Review the product flow",
       summary:
-        "Open the live demo and compare how the dashboard changes with the kind of data being explored.",
+        "Start with the live demo and use it like a real weather app rather than only scanning the UI.",
       steps: [
-        "Open Zoo, KRK Chess, and Census-Income rather than judging one dashboard in isolation.",
-        "Notice that categorical traits, rule-based positions, and mixed demographic data are handled with different visual decisions.",
-        "The point of the project is not one flashy chart; it is choosing a fitting dashboard structure for each dataset.",
+        "Search for a city such as Detroit or Tokyo and notice how the globe, weather panel, daily brief, and Life Score update together.",
+        "Use Drop Pin, Save, and Share to test the core interaction model: location selection should feel fast, recoverable, and reusable.",
+        "Resize to mobile or open it on a phone to see how the dense weather data is simplified into a calmer, scroll-friendly experience.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/atmosphere-atlas-desktop-dashboard.png",
+        alt: "Atmosphere Atlas desktop dashboard showing a 3D globe, weather panel, daily brief, and Life Score.",
+        caption:
+          "The main dashboard keeps the selected location, globe, practical daily summary, and comfort score visible without overwhelming the user with every raw metric at once.",
+      },
+      {
+        src: "/atmosphere-atlas-saved-places.png",
+        alt: "Atmosphere Atlas saved places row and globe markers.",
+        caption:
+          "Saved places persist locally, appear in a responsive header row, and are reflected as secondary markers on the globe.",
+      },
+      {
+        src: "/atmosphere-atlas-mobile-dashboard.png",
+        alt: "Atmosphere Atlas mobile dashboard showing the globe and Detroit weather panel.",
+        caption:
+          "The mobile layout preserves the same interaction model while prioritizing scroll behavior, readable cards, and touch-friendly controls.",
+      },
+      {
+        src: "/atmosphere-atlas-five-day-outlook.png",
+        alt: "Atmosphere Atlas 5-day outlook panel showing daily conditions and temperature ranges.",
+        caption:
+          "Secondary sections like the 5-day outlook reveal more detail only when users ask for it, keeping the default experience calm.",
+      },
+    ],
+  },
+  {
+    slug: "visual-data-mining-dashboard",
+    title: "KRK Endgame Explorer",
+    type: "Algorithms · Data visualization · Interactive UI",
+    status: "Featured",
+    summary:
+      "An interactive chess endgame visualization for exploring king-rook-king positions, legal-move patterns, heatmaps, and state-space behavior.",
+    proof: [
+      "Built a public visualization around the king-rook-king chess endgame, turning abstract state-space data into interactive board-native views.",
+      "Designed multiple views for understanding position patterns, move behavior, heatmaps, piece journeys, and endgame progression.",
+      "Created a recruiter-friendly live demo that shows algorithmic reasoning and visualization design without requiring the reviewer to read code first.",
+    ],
+    stack: ["React", "Data Visualization", "Algorithms", "Interactive UI"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://viz-dm.vercel.app/krk/",
+      },
+    ],
+    problem:
+      "Chess endgame datasets can be difficult to understand from raw tables or static charts because the meaning depends on board position, legal movement, and state transitions.",
+    build:
+      "I built an interactive KRK endgame explorer that presents the same data through board views, heatmaps, movement patterns, and state-space explanations so users can reason about the endgame visually.",
+    takeaway:
+      "This project shows that I can turn algorithmic data into a usable interface: the important part was not just plotting values, but choosing visual structures that match the rules and mental model of chess.",
+    reviewGuide: {
+      title: "Review the KRK flow",
+      summary:
+        "Open the KRK demo and treat it as an interactive explanation of an algorithmic state space.",
+      steps: [
+        "Start with the board-based views so the state-space data has concrete chess meaning.",
+        "Move through the heatmap and journey-style visualizations to see how patterns emerge across positions.",
+        "Judge the project by how the interface makes abstract endgame data easier to inspect, not only by the chart styling.",
       ],
     },
     visuals: [
       {
         src: "/viz-dm-krk-dashboard.jpg",
-        alt: "Visual Data Mining Dashboard showing the KRK chess endgame tree view.",
+        alt: "KRK Endgame Explorer showing a chess endgame visualization and state-space dashboard.",
         caption:
-          "KRK chess view: the dashboard changes shape around the data instead of forcing every dataset into the same chart pattern.",
+          "KRK view: the dashboard uses board-native and state-space visualizations to make chess endgame patterns easier to inspect.",
       },
     ],
   },
