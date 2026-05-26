@@ -203,7 +203,7 @@ export default function ProjectsPage() {
             </h2>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {featuredProjects.map((item) => (
               <ProjectCard key={item.slug} item={item} featured />
             ))}

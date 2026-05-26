@@ -34,6 +34,77 @@ export type ProjectItem = {
 
 export const featuredProjects: ProjectItem[] = [
   {
+    slug: "grantpilot",
+    title: "GrantPilot",
+    type: "Full-stack product · Grant intelligence · Public-sector workflow",
+    status: "Featured",
+    summary:
+      "A deployed public-sector grant readiness workspace that turns rough infrastructure project notes into source-backed grant matches, agent review traces, translated requirements, and exportable readiness packets.",
+    proof: [
+      "Normalized 1,177 public grant records from Grants.gov and MI Funding Hub into a browsable, source-fresh grant database.",
+      "Built a guided workflow across project intake, grant scoring, relevance review, requirements translation, readiness gaps, saved projects, and packet generation.",
+      "Added a reliable public preview mode with saved traces and frontend cache data so the project stays reviewable even when live API credentials are not connected.",
+    ],
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "Public data pipelines",
+      "Multi-agent workflow",
+      "Vercel",
+    ],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://grantpilotmi.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/grantpilot",
+      },
+    ],
+    problem:
+      "Public grant discovery is not just a search problem. Local teams need to know which programs are worth reviewing, what evidence is missing, and how to turn a rough public-works need into a safe staff-facing packet without overclaiming eligibility.",
+    build:
+      "I built GrantPilot as a full product workflow: normalized grant data, saved public cache files, a guided project-intake flow, project-specific ranked matches, selected-grant detail pages, a requirements translator, an agent-review trace, saved projects, analytics-style context, and a readiness packet with Trust Guard verification language.",
+    takeaway:
+      "GrantPilot shows that I can connect product design, data normalization, frontend polish, backend orchestration, and responsible AI framing into one deployed workflow that remains usable after live credentials are disconnected.",
+    next:
+      "A future version could add authenticated team workspaces, scheduled source refresh jobs, reviewer comments, and direct export to council packet formats.",
+    reviewGuide: {
+      title: "Review the guided workflow",
+      summary:
+        "Open the live demo and follow the saved stormwater workflow from intake through ranked matches and the readiness packet.",
+      steps: [
+        "Start on the dashboard to see the 1,177-record public grant cache and the recommended workflow path.",
+        "Open Project Intake, replay the guided stormwater workflow, then review the project-specific matches in Grant Explorer.",
+        "Open the Readiness Packet to inspect the memo, missing documents, 30-day plan, and Trust Guard language that keeps the output review-safe.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/grantpilot-dashboard-overview.png",
+        alt: "GrantPilot dashboard showing public grant counts, source freshness, and the recommended grant readiness workflow.",
+        caption:
+          "The dashboard frames GrantPilot as a source-backed workflow: public grant counts, cache freshness, saved trace status, and a clear path from intake to packet.",
+      },
+      {
+        src: "/grantpilot-explorer-matches.png",
+        alt: "GrantPilot Grant Explorer showing ranked stormwater project matches and the selected Clean Water State Revolving Fund opportunity.",
+        caption:
+          "The explorer separates full database browsing from project-specific matches, then keeps every grant tied to source, freshness, fit, and human review signals.",
+      },
+      {
+        src: "/grantpilot-readiness-packet.png",
+        alt: "GrantPilot readiness packet showing a score, missing documents, council memo starter, and Trust Guard note.",
+        caption:
+          "The final packet turns discovery into reviewable staff output: readiness score, missing documents, resident-facing language, a 30-day plan, and verification warnings.",
+      },
+    ],
+  },
+  {
     slug: "atmosphere-atlas",
     title: "Atmosphere Atlas",
     type: "Frontend product · Weather intelligence · 3D UI",
@@ -102,98 +173,6 @@ export const featuredProjects: ProjectItem[] = [
     ],
   },
   {
-    slug: "visual-data-mining-dashboard",
-    title: "Visual Data Mining Showcase",
-    type: "Data visualization · Dashboard design · Interactive analysis",
-    status: "Featured",
-    summary:
-      "A three-dashboard visualization showcase comparing how different interface patterns fit Zoo, KRK chess endgame, and Census-Income datasets.",
-    proof: [
-      "Built separate dashboards for categorical Zoo data, rule-based KRK chess endgames, and mixed demographic Census-Income data.",
-      "Matched each dashboard to the structure of its dataset instead of forcing one generic chart layout across every problem.",
-      "Shipped a public demo where reviewers can compare how visualization decisions change across categorical, rule-based, and mixed data.",
-    ],
-    stack: ["React", "Data Visualization", "Dashboard Design", "Interactive UI"],
-    links: [
-      {
-        label: "Live demo",
-        href: "https://viz-dm.vercel.app/",
-      },
-    ],
-    problem:
-      "Data visualization projects often become collections of charts that ignore the underlying shape of the dataset. I wanted to show how interface choices should change when the data changes.",
-    build:
-      "I built a dashboard showcase with three dataset-specific experiences: Zoo for categorical feature exploration, KRK chess for rule-based endgame states, and Census-Income for mixed demographic and work-related factors.",
-    takeaway:
-      "This project shows data-product judgment: the important part was not simply plotting values, but choosing visual structures that help users ask better questions about each dataset.",
-    reviewGuide: {
-      title: "Compare the three dashboards",
-      summary:
-        "Open the live demo and move through Zoo, KRK Chess, and Census-Income instead of judging the project from only one screen.",
-      steps: [
-        "Start with the landing page to see the three datasets and why they need different visualization approaches.",
-        "Open KRK Chess to inspect the board-native and state-space views for rule-based data.",
-        "Compare it with Zoo and Census-Income to see how the interface changes for categorical and mixed demographic data.",
-      ],
-    },
-    visuals: [
-      {
-        src: "/viz-dm-krk-dashboard.jpg",
-        alt: "Visual Data Mining Showcase showing the KRK chess dashboard within a multi-dashboard visualization project.",
-        caption:
-          "KRK is one view inside the broader showcase: Zoo, KRK Chess, and Census-Income each use a different dashboard structure based on the dataset.",
-      },
-    ],
-  },
-  {
-    slug: "macon-banquet",
-    title: "Macon Banquet",
-    type: "Full-stack product · Next.js · TypeScript",
-    status: "Featured",
-    summary:
-      "A polished event-venue website with booking-oriented flows, responsive UI, and production deployment.",
-    proof: [
-      "Built a complete public-facing product experience rather than a single isolated component.",
-      "Combined responsive layout, motion, and booking-oriented information architecture.",
-      "Shipped both a live deployment and a public codebase.",
-    ],
-    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
-    links: [
-      {
-        label: "Live demo",
-        href: "https://macon-banquet.vercel.app/",
-      },
-      {
-        label: "GitHub",
-        href: "https://github.com/Dhyey-Patel28/macon-banquet",
-      },
-    ],
-    problem:
-      "Venue websites can easily become static brochures. I wanted this to feel like a product experience centered around trust, discovery, and booking intent.",
-    build:
-      "I built a responsive event-venue website with clear information hierarchy, conversion-focused calls to action, motion details, and a production deployment.",
-    takeaway:
-      "This project shows frontend product polish: layout, hierarchy, interaction, responsiveness, and a complete deployed experience.",
-    reviewGuide: {
-      title: "What to look at first",
-      summary:
-        "Treat this like a product review, not a code sample.",
-      steps: [
-        "Scan the landing page from top to bottom and watch how it moves from atmosphere to trust to booking intent.",
-        "Resize the page and check how the layout, spacing, and navigation adapt across screen sizes.",
-        "Use the GitHub link if you want to inspect how the polished front-end experience is organized in code.",
-      ],
-    },
-    visuals: [
-      {
-        src: "/macon-banquet.jpg",
-        alt: "Macon Banquet homepage hero section with event venue photography and booking call to action.",
-        caption:
-          "The homepage is designed around atmosphere first, then booking intent: the product sells the venue before asking for conversion.",
-      },
-    ],
-  },
-  {
     slug: "automata-workbench",
     title: "Automata Workbench",
     type: "Algorithms · Interactive UI · TypeScript",
@@ -244,6 +223,98 @@ export const featuredProjects: ProjectItem[] = [
 ];
 
 export const moreProjects: ProjectItem[] = [
+  {
+    slug: "visual-data-mining-dashboard",
+    title: "Visual Data Mining Showcase",
+    type: "Data visualization · Dashboard design · Interactive analysis",
+    status: "Shipped",
+    summary:
+      "A three-dashboard visualization showcase comparing how different interface patterns fit Zoo, KRK chess endgame, and Census-Income datasets.",
+    proof: [
+      "Built separate dashboards for categorical Zoo data, rule-based KRK chess endgames, and mixed demographic Census-Income data.",
+      "Matched each dashboard to the structure of its dataset instead of forcing one generic chart layout across every problem.",
+      "Shipped a public demo where reviewers can compare how visualization decisions change across categorical, rule-based, and mixed data.",
+    ],
+    stack: ["React", "Data Visualization", "Dashboard Design", "Interactive UI"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://viz-dm.vercel.app/",
+      },
+    ],
+    problem:
+      "Data visualization projects often become collections of charts that ignore the underlying shape of the dataset. I wanted to show how interface choices should change when the data changes.",
+    build:
+      "I built a dashboard showcase with three dataset-specific experiences: Zoo for categorical feature exploration, KRK chess for rule-based endgame states, and Census-Income for mixed demographic and work-related factors.",
+    takeaway:
+      "This project shows data-product judgment: the important part was not simply plotting values, but choosing visual structures that help users ask better questions about each dataset.",
+    reviewGuide: {
+      title: "Compare the three dashboards",
+      summary:
+        "Open the live demo and move through Zoo, KRK Chess, and Census-Income instead of judging the project from only one screen.",
+      steps: [
+        "Start with the landing page to see the three datasets and why they need different visualization approaches.",
+        "Open KRK Chess to inspect the board-native and state-space views for rule-based data.",
+        "Compare it with Zoo and Census-Income to see how the interface changes for categorical and mixed demographic data.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/viz-dm-krk-dashboard.jpg",
+        alt: "Visual Data Mining Showcase showing the KRK chess dashboard within a multi-dashboard visualization project.",
+        caption:
+          "KRK is one view inside the broader showcase: Zoo, KRK Chess, and Census-Income each use a different dashboard structure based on the dataset.",
+      },
+    ],
+  },
+  {
+    slug: "macon-banquet",
+    title: "Macon Banquet",
+    type: "Full-stack product · Next.js · TypeScript",
+    status: "Shipped",
+    summary:
+      "A polished event-venue website with booking-oriented flows, responsive UI, and production deployment.",
+    proof: [
+      "Built a complete public-facing product experience rather than a single isolated component.",
+      "Combined responsive layout, motion, and booking-oriented information architecture.",
+      "Shipped both a live deployment and a public codebase.",
+    ],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://macon-banquet.vercel.app/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Dhyey-Patel28/macon-banquet",
+      },
+    ],
+    problem:
+      "Venue websites can easily become static brochures. I wanted this to feel like a product experience centered around trust, discovery, and booking intent.",
+    build:
+      "I built a responsive event-venue website with clear information hierarchy, conversion-focused calls to action, motion details, and a production deployment.",
+    takeaway:
+      "This project shows frontend product polish: layout, hierarchy, interaction, responsiveness, and a complete deployed experience.",
+    reviewGuide: {
+      title: "What to look at first",
+      summary:
+        "Treat this like a product review, not a code sample.",
+      steps: [
+        "Scan the landing page from top to bottom and watch how it moves from atmosphere to trust to booking intent.",
+        "Resize the page and check how the layout, spacing, and navigation adapt across screen sizes.",
+        "Use the GitHub link if you want to inspect how the polished front-end experience is organized in code.",
+      ],
+    },
+    visuals: [
+      {
+        src: "/macon-banquet.jpg",
+        alt: "Macon Banquet homepage hero section with event venue photography and booking call to action.",
+        caption:
+          "The homepage is designed around atmosphere first, then booking intent: the product sells the venue before asking for conversion.",
+      },
+    ],
+  },
   {
     slug: "seglungai",
     title: "SegLungAI",

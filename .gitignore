@@ -47,3 +47,8 @@ AGENTS.md
 CLAUDE.md
 .vercel
 .env*.local
+
+# Local archives / generated assistant patches
+*.zip
+*.tar
+*.tar.gz

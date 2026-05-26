@@ -26,8 +26,8 @@ import SiteNav from "@/components/site-nav";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
 const HOMEPAGE_PROJECT_SLUGS = [
+  "grantpilot",
   "atmosphere-atlas",
-  "visual-data-mining-dashboard",
   "automata-workbench",
 ] as const;
 
@@ -1252,7 +1252,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Projects"
             title="Shipped pieces of how I think."
-            body="A focused snapshot of my range: polished product engineering, data visualization, and interactive CS tools. The full project archive stays one click away."
+            body="A focused snapshot of my range: public-sector workflow products, data visualization, interactive CS tools, and polished frontend engineering. The full project archive stays one click away."
             action={
               <PillLink href="/projects">
                 View projects
