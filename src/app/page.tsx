@@ -75,11 +75,10 @@ function readJourneyChoice(): JourneyChoice {
   }
 }
 
-// The stick figure stays off on phones, where a fixed figure covers content.
-// Elsewhere a visitor's explicit toggle choice wins; without one, reduced-motion
-// visitors get a figure that stands still on the path.
+// A visitor's explicit toggle choice wins; without one, reduced-motion visitors
+// get a figure that stands still on the path. Nothing renders until mounted.
 function useJourney() {
-  const [wide, setWide] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   // Read lazily so the stored choice is ready on the first client render.
   const [choice, setChoice] = useState<JourneyChoice>(() =>
@@ -87,24 +86,19 @@ function useJourney() {
   );
 
   useEffect(() => {
-    const wideQuery = window.matchMedia("(min-width: 768px)");
     const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
-      setWide(wideQuery.matches);
+      setMounted(true);
       setReduceMotion(reduceQuery.matches);
     };
 
     update();
-    wideQuery.addEventListener("change", update);
     reduceQuery.addEventListener("change", update);
 
-    return () => {
-      wideQuery.removeEventListener("change", update);
-      reduceQuery.removeEventListener("change", update);
-    };
+    return () => reduceQuery.removeEventListener("change", update);
   }, []);
 
-  const mode: JourneyMode = !wide
+  const mode: JourneyMode = !mounted
     ? "off"
     : (choice ?? (reduceMotion ? "still" : "animated"));
 
@@ -197,7 +191,7 @@ function FigureBody({ pose }: { pose: Pose }) {
 function StickFigureStill() {
   return (
     <div
-      className="pointer-events-none fixed bottom-4 left-[5vw] z-50 block mix-blend-difference"
+      className="pointer-events-none fixed bottom-4 left-[5vw] z-50 block origin-bottom-left scale-75 mix-blend-difference md:scale-100"
       aria-hidden="true"
     >
       <svg
@@ -585,7 +579,7 @@ function StickFigureJourney() {
   return (
     <motion.div
       style={{ x, y }}
-      className="pointer-events-none fixed bottom-4 left-0 z-50 block mix-blend-difference"
+      className="pointer-events-none fixed bottom-4 left-0 z-50 block scale-75 mix-blend-difference md:scale-100"
       aria-hidden="true"
     >
       <svg
@@ -746,7 +740,7 @@ function StickFigureJourney() {
 
 function JourneyGround() {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-24">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 hidden h-24 md:block">
       <svg
         viewBox="0 0 1440 120"
         preserveAspectRatio="none"
