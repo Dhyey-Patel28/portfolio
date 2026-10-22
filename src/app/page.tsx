@@ -75,32 +75,22 @@ function readJourneyChoice(): JourneyChoice {
   }
 }
 
-// A visitor's explicit toggle choice wins; without one, reduced-motion visitors
-// get a figure that stands still on the path. Nothing renders until mounted.
+// The figure animates by default, even when the OS prefers reduced motion; the
+// toggle lets a visitor stop it, and that choice is saved. Nothing renders until mounted.
 function useJourney() {
   const [mounted, setMounted] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
   // Read lazily so the stored choice is ready on the first client render.
   const [choice, setChoice] = useState<JourneyChoice>(() =>
     typeof window === "undefined" ? null : readJourneyChoice()
   );
 
   useEffect(() => {
-    const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => {
-      setMounted(true);
-      setReduceMotion(reduceQuery.matches);
-    };
+    const id = window.requestAnimationFrame(() => setMounted(true));
 
-    update();
-    reduceQuery.addEventListener("change", update);
-
-    return () => reduceQuery.removeEventListener("change", update);
+    return () => window.cancelAnimationFrame(id);
   }, []);
 
-  const mode: JourneyMode = !mounted
-    ? "off"
-    : (choice ?? (reduceMotion ? "still" : "animated"));
+  const mode: JourneyMode = !mounted ? "off" : (choice ?? "animated");
 
   const toggle = () => {
     const next = mode === "animated" ? "still" : "animated";
