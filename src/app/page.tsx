@@ -5,6 +5,7 @@ import { useEffect, useRef, useMemo, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import {
+  MotionConfig,
   motion,
   useMotionValueEvent,
   useScroll,
@@ -18,17 +19,18 @@ import {
   ExternalLink,
   FileText,
   Mail,
+  PersonStanding,
 } from "lucide-react";
 import { experienceItems } from "@/lib/experience";
 import { featuredProjects, moreProjects, type ProjectItem } from "@/lib/projects";
-import { labItems } from "@/lib/lab";
+import { publications } from "@/lib/research";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
 const HOMEPAGE_PROJECT_SLUGS = [
-  "grantpilot",
+  "job-fair-match",
   "atmosphere-atlas",
-  "automata-workbench",
+  "macon-banquet",
 ] as const;
 
 const allProjects = [...featuredProjects, ...moreProjects];
@@ -59,22 +61,160 @@ function ExplodingWord({
   );
 }
 
-function useHasMounted() {
-  const [hasMounted, setHasMounted] = useState(false);
+type JourneyMode = "off" | "still" | "animated";
+type JourneyChoice = Exclude<JourneyMode, "off"> | null;
+
+const JOURNEY_STORAGE_KEY = "journey-animation";
+
+function readJourneyChoice(): JourneyChoice {
+  try {
+    const value = window.localStorage.getItem(JOURNEY_STORAGE_KEY);
+    return value === "animated" || value === "still" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+// The stick figure stays off on phones, where a fixed figure covers content.
+// Elsewhere a visitor's explicit toggle choice wins; without one, reduced-motion
+// visitors get a figure that stands still on the path.
+function useJourney() {
+  const [wide, setWide] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  // Read lazily so the stored choice is ready on the first client render.
+  const [choice, setChoice] = useState<JourneyChoice>(() =>
+    typeof window === "undefined" ? null : readJourneyChoice()
+  );
 
   useEffect(() => {
-    const id = window.requestAnimationFrame(() => {
-      setHasMounted(true);
-    });
+    const wideQuery = window.matchMedia("(min-width: 768px)");
+    const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      setWide(wideQuery.matches);
+      setReduceMotion(reduceQuery.matches);
+    };
 
-    return () => window.cancelAnimationFrame(id);
+    update();
+    wideQuery.addEventListener("change", update);
+    reduceQuery.addEventListener("change", update);
+
+    return () => {
+      wideQuery.removeEventListener("change", update);
+      reduceQuery.removeEventListener("change", update);
+    };
   }, []);
 
-  return hasMounted;
+  const mode: JourneyMode = !wide
+    ? "off"
+    : (choice ?? (reduceMotion ? "still" : "animated"));
+
+  const toggle = () => {
+    const next = mode === "animated" ? "still" : "animated";
+    setChoice(next);
+    try {
+      window.localStorage.setItem(JOURNEY_STORAGE_KEY, next);
+    } catch {
+      // Storage can be unavailable (private mode); the choice still applies now.
+    }
+  };
+
+  return { mode, toggle };
+}
+
+function JourneyToggle({
+  animated,
+  onToggle,
+}: {
+  animated: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={animated}
+      aria-label="Animate the stick figure"
+      className="soft-pill soft-pill-sm gap-2 text-xs focus:outline-none focus:ring-2 focus:ring-stone-950/30"
+    >
+      <PersonStanding className="h-3.5 w-3.5" aria-hidden="true" />
+      <span>Stick figure</span>
+      <span
+        aria-hidden="true"
+        className={`rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] ${
+          animated ? "bg-stone-950 text-[#fbf8f1]" : "bg-stone-200 text-stone-600"
+        }`}
+      >
+        {animated ? "On" : "Off"}
+      </span>
+    </button>
+  );
+}
+
+type Pose = {
+  head: [number, number];
+  body: string;
+  leftArm: string;
+  rightArm: string;
+  leftLeg: string;
+  rightLeg: string;
+};
+
+const STANDING_POSE: Pose = {
+  head: [48, 18],
+  body: "M 48 30 Q 48 44 48 60",
+  leftArm: "M 48 32 Q 42 42 36 54",
+  rightArm: "M 48 32 Q 54 42 60 54",
+  leftLeg: "M 48 60 Q 42 78 39 98",
+  rightLeg: "M 48 60 Q 54 78 57 98",
+};
+
+function FigureBody({ pose }: { pose: Pose }) {
+  const limbs = [pose.body, pose.leftArm, pose.rightArm, pose.leftLeg, pose.rightLeg];
+
+  return (
+    <>
+      <circle
+        cx={pose.head[0]}
+        cy={pose.head[1]}
+        r="8"
+        stroke="currentColor"
+        strokeWidth="2.7"
+      />
+      {limbs.map((d, index) => (
+        <path
+          key={index}
+          d={d}
+          stroke="currentColor"
+          strokeWidth="2.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ))}
+    </>
+  );
+}
+
+function StickFigureStill() {
+  return (
+    <div
+      className="pointer-events-none fixed bottom-4 left-[5vw] z-50 block mix-blend-difference"
+      aria-hidden="true"
+    >
+      <svg
+        width="128"
+        height="128"
+        viewBox="0 0 96 110"
+        fill="none"
+        className="overflow-visible text-white"
+      >
+        <ellipse cx="48" cy="102" rx="18" ry="4" fill="currentColor" opacity="0.22" />
+        <FigureBody pose={STANDING_POSE} />
+      </svg>
+    </div>
+  );
 }
 
 function StickFigureJourney() {
-  const hasMounted = useHasMounted();
   const { scrollY, scrollYProgress } = useScroll();
 
   const x = useTransform(scrollYProgress, [0, 1], ["5vw", "86vw"]);
@@ -231,25 +371,9 @@ function StickFigureJourney() {
   const isWalking =
     !isCelebrating && !isPanting && !isSitting && speed > 110;
 
-  type Pose = {
-    head: [number, number];
-    body: string;
-    leftArm: string;
-    rightArm: string;
-    leftLeg: string;
-    rightLeg: string;
-  };
-
   const idleFrames: Pose[] = useMemo(
     () => [
-      {
-        head: [48, 18],
-        body: "M 48 30 Q 48 44 48 60",
-        leftArm: "M 48 32 Q 42 42 36 54",
-        rightArm: "M 48 32 Q 54 42 60 54",
-        leftLeg: "M 48 60 Q 42 78 39 98",
-        rightLeg: "M 48 60 Q 54 78 57 98",
-      },
+      STANDING_POSE,
       {
         head: [48, 19],
         body: "M 48 31 Q 48 45 48 61",
@@ -456,16 +580,12 @@ function StickFigureJourney() {
     return () => window.clearInterval(interval);
   }, [fps, frames.length]);
 
-  if (!hasMounted) {
-    return null;
-  }
-
   const pose = frames[frame % frames.length];
 
   return (
     <motion.div
       style={{ x, y }}
-      className="pointer-events-none fixed bottom-4 left-0 z-50 block scale-75 mix-blend-difference md:scale-100"
+      className="pointer-events-none fixed bottom-4 left-0 z-50 block mix-blend-difference"
       aria-hidden="true"
     >
       <svg
@@ -617,49 +737,7 @@ function StickFigureJourney() {
           </>
         )}
 
-        <circle
-          cx={pose.head[0]}
-          cy={pose.head[1]}
-          r="8"
-          stroke="currentColor"
-          strokeWidth="2.7"
-        />
-
-        <path
-          d={pose.body}
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d={pose.leftArm}
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d={pose.rightArm}
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d={pose.leftLeg}
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d={pose.rightLeg}
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <FigureBody pose={pose} />
       </svg>
     </motion.div>
   );
@@ -668,7 +746,7 @@ function StickFigureJourney() {
 
 function JourneyGround() {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 hidden h-24 md:block">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-24">
       <svg
         viewBox="0 0 1440 120"
         preserveAspectRatio="none"
@@ -689,7 +767,7 @@ function JourneyGround() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+    <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
       {children}
     </p>
   );
@@ -786,12 +864,12 @@ function QuickPathCard({
       href={href}
       className="group block rounded-[2rem] border border-stone-300/80 bg-[#fbf8f1]/80 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
     >
-      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-stone-400">
+      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-stone-500">
         {label}
       </p>
-      <h3 className="mt-5 text-2xl font-medium tracking-[-0.04em] text-stone-950">
+      <h2 className="mt-5 text-2xl font-medium tracking-[-0.04em] text-stone-950">
         {title}
-      </h3>
+      </h2>
       <p className="mt-3 text-sm leading-7 text-stone-600">{body}</p>
       <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-stone-700 transition group-hover:text-stone-950">
         Go there
@@ -818,7 +896,7 @@ function ExperienceCard({
       <Surface className="group h-full">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
+            <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
               Experience / {item.dates}
             </p>
             <h3 className="mt-5 text-3xl font-medium tracking-[-0.045em] text-stone-950">
@@ -829,7 +907,7 @@ function ExperienceCard({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="rounded-full border border-stone-300 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="rounded-full border border-stone-300 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               Real systems
             </p>
 
@@ -849,7 +927,7 @@ function ExperienceCard({
 
         <div className="mt-7 grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               What I did
             </p>
             <ul className="mt-3 space-y-3 text-sm leading-7 text-stone-600">
@@ -863,7 +941,7 @@ function ExperienceCard({
           </div>
 
           <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               Impact
             </p>
             <div className="mt-3 grid gap-2">
@@ -911,13 +989,13 @@ function ProjectCard({
       <Surface className="group h-full transition duration-300 hover:-translate-y-1 hover:shadow-md">
         <div className="flex items-start justify-between gap-5">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
-              Project / {item.status}
+            <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
+              {item.status}
             </p>
             <h3 className="mt-5 text-3xl font-medium tracking-[-0.045em] text-stone-950">
               {item.title}
             </h3>
-            <p className="mt-2 text-sm font-medium text-stone-500">{item.type}</p>
+            <p className="mt-2 text-sm font-medium text-stone-500">{item.context}</p>
           </div>
           <Link
             href={`/projects/${item.slug}`}
@@ -931,8 +1009,8 @@ function ProjectCard({
         <p className="mt-5 text-sm leading-7 text-stone-600">{item.summary}</p>
 
         <div className="mt-6 rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-            Proof
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
+            Highlights
           </p>
           <ul className="mt-3 space-y-3 text-sm leading-7 text-stone-600">
             {item.proof.slice(0, 2).map((proof) => (
@@ -980,13 +1058,15 @@ function ProjectCard({
   );
 }
 
-function LabCard({
+function ResearchCard({
   item,
   index,
 }: {
-  item: (typeof labItems)[number];
+  item: (typeof publications)[number];
   index: number;
 }) {
+  const paperLink = item.links?.[0];
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 24 }}
@@ -994,38 +1074,36 @@ function LabCard({
       viewport={{ once: true, margin: "-120px" }}
       transition={{ delay: index * 0.08, duration: 0.6, ease: "easeOut" }}
     >
-      <Surface className="group h-full">
-      <div className="flex items-start justify-between gap-4">
-        <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
-          Lab / {item.status}
+      <Surface className="flex h-full flex-col">
+        <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
+          {item.status}
         </p>
-
-        <Link
-          href={`/lab/${item.slug}`}
-          aria-label={`Read lab note for ${item.title}`}
-          className="group/arrow flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stone-300 text-stone-500 transition hover:border-stone-950 hover:bg-stone-950 hover:text-[#fbf8f1] focus:outline-none focus:ring-2 focus:ring-stone-950/30"
-        >
-          <ArrowRight className="h-4 w-4 stroke-current transition group-hover/arrow:text-[#fbf8f1]" />
-        </Link>
-      </div>
         <h3 className="mt-5 text-2xl font-medium tracking-[-0.04em] text-stone-950">
           {item.title}
         </h3>
+        <p className="mt-2 text-sm font-medium text-stone-500">{item.role}</p>
         <p className="mt-4 text-sm leading-7 text-stone-600">{item.summary}</p>
 
-        <div className="mt-6 space-y-4 border-t border-stone-200 pt-5 text-sm leading-7 text-stone-600">
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-              Current milestone
-            </p>
-            <p className="mt-2">{item.currentMilestone}</p>
-          </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-              Technical challenge
-            </p>
-            <p className="mt-2">{item.technicalChallenge}</p>
-          </div>
+        <div className="mt-auto flex flex-wrap gap-3 border-t border-stone-200 pt-5">
+          <Link
+            href={`/research#${item.slug}`}
+            aria-label={`Research details for ${item.title}`}
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-700 transition hover:text-stone-950"
+          >
+            Details
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+          {paperLink && (
+            <a
+              href={paperLink.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-stone-700 transition hover:text-stone-950"
+            >
+              {paperLink.label}
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          )}
         </div>
       </Surface>
     </motion.article>
@@ -1039,7 +1117,7 @@ function Footer() {
         <div>
           <p className="font-medium text-stone-950">Dhyey Patel</p>
           <p className="mt-2">
-            Creative software engineer building useful systems.
+            Software engineer building production web tools.
           </p>
         </div>
 
@@ -1049,6 +1127,9 @@ function Footer() {
           </Link>
           <Link href="/projects" className="transition hover:text-stone-950">
             Projects
+          </Link>
+          <Link href="/research" className="transition hover:text-stone-950">
+            Research
           </Link>
           <Link href="/lab" className="transition hover:text-stone-950">
             Lab
@@ -1064,18 +1145,30 @@ function Footer() {
 
 export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
+  const journey = useJourney();
 
   useGSAP(
     () => {
       const chars = gsap.utils.toArray<HTMLElement>(".char");
       const introItems = gsap.utils.toArray<HTMLElement>(".intro-item");
 
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".hero-line", { scaleX: 1 });
+        return;
+      }
+
+      // Calmer scatter than before, and much calmer on phones.
+      const isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
+      const spreadX = isSmallScreen ? 60 : 260;
+      const spreadY = isSmallScreen ? 40 : 160;
+      const spin = isSmallScreen ? 12 : 35;
+
       gsap.set(chars, {
-        x: () => gsap.utils.random(-420, 420),
-        y: () => gsap.utils.random(-260, 260),
-        rotate: () => gsap.utils.random(-60, 60),
+        x: () => gsap.utils.random(-spreadX, spreadX),
+        y: () => gsap.utils.random(-spreadY, spreadY),
+        rotate: () => gsap.utils.random(-spin, spin),
         opacity: 0,
-        scale: () => gsap.utils.random(0.6, 1.35),
+        scale: () => gsap.utils.random(0.8, 1.15),
       });
 
       gsap.set(introItems, {
@@ -1096,9 +1189,9 @@ export default function Home() {
           rotate: 0,
           opacity: 1,
           scale: 1,
-          duration: 1.35,
+          duration: isSmallScreen ? 0.8 : 1.1,
           stagger: {
-            amount: 0.6,
+            amount: isSmallScreen ? 0.3 : 0.5,
             from: "random",
           },
         })
@@ -1126,6 +1219,7 @@ export default function Home() {
   );
 
   return (
+    <MotionConfig reducedMotion="user">
     <main
       id="main-content"
       tabIndex={-1}
@@ -1133,8 +1227,14 @@ export default function Home() {
     >
       <SiteNav home />
 
-      <JourneyGround />
-      <StickFigureJourney />
+      {journey.mode !== "off" && <JourneyGround />}
+      {journey.mode === "animated" && (
+        // An explicit opt-in should animate even when the OS prefers reduced motion.
+        <MotionConfig reducedMotion="never">
+          <StickFigureJourney />
+        </MotionConfig>
+      )}
+      {journey.mode === "still" && <StickFigureStill />}
 
       <section
         id="start"
@@ -1148,23 +1248,25 @@ export default function Home() {
 
           <h1
             className="break-keep text-[clamp(3.2rem,10.5vw,9rem)] font-medium leading-[0.86] tracking-[-0.085em] text-stone-950"
-            aria-label="Creative software engineer building useful systems."
+            aria-label="Software engineer building production web tools."
           >
-            <span className="block">
-              <ExplodingWord text="Creative" />
-            </span>
-            <span className="block">
-              <ExplodingWord text="software" />
-            </span>
-            <span className="block">
-              <ExplodingWord text="engineer" />
-            </span>
-            <span className="block">
-              <ExplodingWord text="building" />{" "}
-              <ExplodingWord text="useful" />
-            </span>
-            <span className="block">
-              <ExplodingWord text="systems." />
+            <span aria-hidden="true">
+              <span className="block">
+                <ExplodingWord text="Software" />
+              </span>
+              <span className="block">
+                <ExplodingWord text="engineer" />
+              </span>
+              <span className="block">
+                <ExplodingWord text="building" />
+              </span>
+              <span className="block">
+                <ExplodingWord text="production" />
+              </span>
+              <span className="block">
+                <ExplodingWord text="web" />{" "}
+                <ExplodingWord text="tools." />
+              </span>
             </span>
           </h1>
 
@@ -1172,11 +1274,11 @@ export default function Home() {
 
           <div className="intro-item mx-auto mt-8 max-w-3xl text-stone-600">
             <p className="text-base leading-8 sm:hidden">
-              M.S. Computer Science student building full-stack tools, data-rich interfaces, and practical ML systems.
+              Web Developer at Eastern Michigan University with two accepted IEEE papers. Seeking full-time software engineering roles after Spring 2027.
             </p>
 
             <p className="hidden text-base leading-8 sm:block sm:text-lg">
-              M.S. Computer Science student building full-stack tools, data-rich interfaces, and practical ML systems — with real experience across university web platforms, internal tools, dashboards, and shipped product-style projects.
+              I build production web applications at Eastern Michigan University, previously built internal tools at Givaudan, and have two accepted IEEE papers in applied machine learning. M.S. Computer Science, graduating Spring 2027 and seeking full-time software engineering roles.
             </p>
           </div>
 
@@ -1196,9 +1298,18 @@ export default function Home() {
           </div>
 
           <div className="intro-item mt-10 flex items-center justify-center gap-3 text-sm text-stone-500">
-            <span>Follow the path through experience, projects, and lab work</span>
+            <span>Experience, projects, and research below</span>
             <ArrowDown className="h-4 w-4 animate-bounce" />
           </div>
+
+          {journey.mode !== "off" && (
+            <div className="mt-4 flex justify-center">
+              <JourneyToggle
+                animated={journey.mode === "animated"}
+                onToggle={journey.toggle}
+              />
+            </div>
+          )}
         </div>
       </section>
 
@@ -1207,20 +1318,20 @@ export default function Home() {
           <QuickPathCard
             label="01 / Experience"
             title="Real systems"
-            body="EMU web tools and Givaudan internal platforms with measurable workflow and performance improvements."
+            body="Production web applications at EMU and internal tools at Givaudan, with measurable workflow and performance improvements."
             href="/experience"
           />
           <QuickPathCard
             label="02 / Projects"
             title="Shipped work"
-            body="Polished projects across visualization, product engineering, algorithms, and ML systems."
+            body="Deployed full-stack and frontend projects, plus the full archive of prototypes and course work."
             href="/projects"
           />
           <QuickPathCard
-            label="03 / Lab"
-            title="Active builds"
-            body="Current experiments in developer tools, protocol safety, and calm productivity software."
-            href="/lab"
+            label="03 / Research"
+            title="Accepted papers"
+            body="IEEE MLSP 2026 and IEEE ICTAI 2026 papers on bioacoustics and prompt-injection detection."
+            href="/research"
           />
         </div>
       </section>
@@ -1229,8 +1340,8 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <SectionHeader
             eyebrow="Experience"
-            title="Where I worked on real systems."
-            body="Professional work belongs here: current university web tools, previous co-op work, production constraints, internal users, and measurable impact."
+            title="Production work, real users."
+            body="Current web development at Eastern Michigan University and two co-op terms at Givaudan: API integrations, data workflows, reusable components, and measurable impact."
             action={
               <PillLink href="/experience">
                 View experience
@@ -1251,8 +1362,8 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <SectionHeader
             eyebrow="Projects"
-            title="Shipped pieces of how I think."
-            body="A focused snapshot of my range: public-sector workflow products, data visualization, interactive CS tools, and polished frontend engineering. The full project archive stays one click away."
+            title="Deployed projects."
+            body="Three projects you can open and use today. The full archive covers hackathon, class, and in-progress work, each labelled with its status and my role."
             action={
               <PillLink href="/projects">
                 View projects
@@ -1269,23 +1380,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="lab" className="relative px-6 pb-6 pt-6 md:pb-8 md:pt-8">
+      <section id="research" className="relative px-6 pb-6 pt-6 md:pb-8 md:pt-8">
         <div className="mx-auto max-w-6xl">
           <SectionHeader
-            eyebrow="Lab"
-            title="What I’m still building."
-            body="The lab is not meant to compete with finished work. It shows momentum, curiosity, and the technical problems I am actively trying to shape."
+            eyebrow="Research"
+            title="Accepted IEEE research."
+            body="Graduate research in applied machine learning and AI security. The Research page also covers audio and medical-imaging work."
             action={
-              <PillLink href="/lab">
-                View lab
+              <PillLink href="/research">
+                View research
                 <ArrowRight className="h-4 w-4" />
               </PillLink>
             }
           />
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {labItems.map((item, index) => (
-              <LabCard key={item.slug} item={item} index={index} />
+          <div className="grid gap-5 md:grid-cols-2">
+            {publications.map((item, index) => (
+              <ResearchCard key={item.slug} item={item} index={index} />
             ))}
           </div>
         </div>
@@ -1307,14 +1418,15 @@ export default function Home() {
             <div className="mt-10 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
               <div>
                 <h2 className="text-5xl font-medium tracking-[-0.06em] sm:text-7xl">
-                  I’m looking for software engineering opportunities.
+                  Looking for full-time software engineering roles.
                 </h2>
 
                 <p className="mt-8 max-w-2xl text-base leading-8 text-stone-300 sm:text-lg">
-                  I am still applying for late internship opportunities, but I am
-                  also building toward new-grad software roles where I can work
-                  on full-stack products, internal tools, data-heavy interfaces,
-                  and practical ML systems.
+                  I finish my M.S. in Computer Science in Spring 2027 and am
+                  looking for Software Engineer, Software Developer, and
+                  Full-Stack roles across the United States, working on product
+                  engineering, internal tools, data-heavy applications, and
+                  applied ML.
                 </p>
               </div>
 
@@ -1336,7 +1448,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href="https://linkedin.com/in/dhyey-patel-page"
+                  href="https://www.linkedin.com/in/dhyey-patel-page/"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center justify-between rounded-full border border-stone-700 px-5 py-4 text-sm transition hover:bg-stone-800"
@@ -1360,5 +1472,6 @@ export default function Home() {
 
       <Footer />
     </main>
+    </MotionConfig>
   );
 }

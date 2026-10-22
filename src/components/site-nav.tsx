@@ -4,7 +4,7 @@
   import { Menu, X } from "lucide-react";
   import { useState } from "react";
 
-  type NavSection = "about" | "experience" | "projects" | "lab";
+  type NavSection = "about" | "experience" | "projects" | "research" | "lab";
 
   type SiteNavProps = {
     active?: NavSection;
@@ -30,6 +30,11 @@
       label: "Projects",
       href: "/projects",
       key: "projects",
+    },
+    {
+      label: "Research",
+      href: "/research",
+      key: "research",
     },
     {
       label: "Lab",

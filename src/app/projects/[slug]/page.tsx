@@ -51,13 +51,13 @@ function CaseStudyRow({
   return (
     <div className="grid gap-5 border-t border-stone-200 py-7 md:grid-cols-[4rem_1fr]">
       <div className="self-start pt-1">
-        <span className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
+        <span className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
           {number}
         </span>
       </div>
 
       <div>
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
           {label}
         </p>
 
@@ -85,12 +85,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!item) {
     return {
-      title: "Project | Dhyey Patel",
+      title: "Project",
     };
   }
 
   return {
-    title: `${item.title} | Project | Dhyey Patel`,
+    title: `${item.title} · Project`,
     description: item.summary,
   };
 }
@@ -129,14 +129,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </h1>
 
               <p className="mt-5 text-sm font-medium text-stone-500">
-                {item.type} · {item.status}
+                {item.status} · {item.context}
+                {item.dates ? ` · ${item.dates}` : ""}
               </p>
+              <p className="mt-2 text-sm text-stone-500">{item.type}</p>
             </div>
 
             <div>
               <p className="text-base leading-8 text-stone-600 sm:text-lg">
                 {item.summary}
               </p>
+
+              {item.statusNote && (
+                <p className="mt-4 rounded-[1.25rem] border border-stone-300/80 bg-[#fbf8f1]/80 px-4 py-3 text-sm leading-7 text-stone-600">
+                  {item.statusNote}
+                </p>
+              )}
 
               <div className="mt-6 flex flex-wrap gap-3">
                 {item.links?.map((link) => (
@@ -172,7 +180,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <Surface>
               <div className="flex items-center gap-2">
                 <ImageIcon className="h-4 w-4 text-stone-500" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                   Visual proof
                 </p>
               </div>
@@ -191,7 +199,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <Surface>
               <div className="flex items-center gap-2">
                 <MousePointerClick className="h-4 w-4 text-stone-500" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                   Reviewer guide
                 </p>
               </div>
@@ -210,7 +218,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     key={step}
                     className="grid grid-cols-[auto_1fr] gap-3 rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4"
                   >
-                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-stone-400">
+                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-stone-500">
                       0{index + 1}
                     </span>
                     <span className="text-sm leading-7 text-stone-700">{step}</span>
@@ -220,7 +228,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </Surface>
 
             <Surface>
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                 Stack
               </p>
 
@@ -230,7 +238,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     key={tech}
                     className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-[1.1rem] border border-stone-200 bg-[#f7f3ec]/70 px-4 py-3"
                   >
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
                       0{index + 1}
                     </span>
                     <span className="text-sm font-medium text-stone-700">{tech}</span>
@@ -242,7 +250,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
           <Surface className="p-0">
             <div className="border-b border-stone-200 bg-[#f7f3ec]/70 px-6 py-5">
-              <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+              <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
                 Case study
               </p>
               <p className="mt-2 text-sm leading-7 text-stone-600">
@@ -269,8 +277,28 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
               <CaseStudyRow
                 number="03"
-                label="Outcome"
-                title="Why it matters."
+                label="Role"
+                title="What I personally did."
+              >
+                <ul className="space-y-4 text-stone-700">
+                  {item.myRole.map((role) => (
+                    <li key={role} className="flex gap-3">
+                      <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-stone-950" />
+                      <span>{role}</span>
+                    </li>
+                  ))}
+                </ul>
+                {item.teamCredit && (
+                  <p className="mt-5 border-t border-stone-200 pt-4 text-stone-500">
+                    {item.teamCredit}
+                  </p>
+                )}
+              </CaseStudyRow>
+
+              <CaseStudyRow
+                number="04"
+                label="Highlights"
+                title="What it does."
               >
                 <ul className="space-y-4 text-stone-700">
                   {item.proof.map((proof) => (
@@ -283,7 +311,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </CaseStudyRow>
 
               <CaseStudyRow
-                number="04"
+                number="05"
                 label="Takeaway"
                 title="What this project shows."
               >
@@ -292,7 +320,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
               {item.next && (
                 <CaseStudyRow
-                  number="05"
+                  number="06"
                   label="Next"
                   title="What I am exploring now."
                 >

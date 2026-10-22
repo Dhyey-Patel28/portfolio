@@ -13,7 +13,7 @@ export default function NotFound() {
       className="flex min-h-screen items-center justify-center bg-[#f7f3ec] px-6 text-stone-950"
     >
       <section className="mx-auto max-w-3xl text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.4em] text-stone-400">
+        <p className="font-mono text-xs uppercase tracking-[0.4em] text-stone-500">
           404
         </p>
 

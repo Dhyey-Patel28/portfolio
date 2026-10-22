@@ -5,7 +5,7 @@ import { experienceItems } from "@/lib/experience";
 import SiteNav from "@/components/site-nav";
 
 export const metadata: Metadata = {
-  title: "Experience | Dhyey Patel",
+  title: "Experience",
   description:
     "Professional software engineering experience across university web tools, internal platforms, dashboards, and data-rich workflows.",
 };
@@ -103,7 +103,7 @@ export default function ExperiencePage() {
               <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
                 <div>
                   <div className="flex items-start justify-between gap-4">
-                    <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
+                    <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
                       {item.dates}
                     </p>
 
@@ -148,7 +148,7 @@ export default function ExperiencePage() {
 
                 <div className="grid gap-4">
                   <div className="rounded-[1.5rem] border border-stone-200 bg-[#f7f3ec]/70 p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-500">
                       What I did
                     </p>
 
@@ -163,7 +163,7 @@ export default function ExperiencePage() {
                   </div>
 
                   <div className="rounded-[1.5rem] border border-stone-200 bg-[#f7f3ec]/70 p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-500">
                       Impact
                     </p>
 

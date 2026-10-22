@@ -86,21 +86,21 @@ function TimelineItem({
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               Problem
             </p>
             <p className="mt-3 text-sm leading-7 text-stone-600">{problem}</p>
           </div>
 
           <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               Build
             </p>
             <p className="mt-3 text-sm leading-7 text-stone-600">{build}</p>
           </div>
 
           <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
               Result
             </p>
             <p className="mt-3 text-sm leading-7 text-stone-600">{result}</p>
@@ -123,12 +123,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!item) {
     return {
-      title: "Experience | Dhyey Patel",
+      title: "Experience",
     };
   }
 
   return {
-    title: `${item.company} | Experience | Dhyey Patel`,
+    title: `${item.company} · Experience`,
     description: item.summary,
   };
 }
@@ -206,7 +206,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
             <Surface>
               <div className="flex items-center gap-2">
                 <ImageIcon className="h-4 w-4 text-stone-500" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                   Public proof
                 </p>
               </div>
@@ -225,7 +225,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
             <Surface>
               <div className="flex items-center gap-2">
                 <MousePointerClick className="h-4 w-4 text-stone-500" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                   Reviewer guide
                 </p>
               </div>
@@ -244,7 +244,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
                     key={step}
                     className="grid grid-cols-[auto_1fr] gap-3 rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4"
                   >
-                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-stone-400">
+                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-stone-500">
                       0{index + 1}
                     </span>
                     <span className="text-sm leading-7 text-stone-700">{step}</span>
@@ -254,7 +254,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
             </Surface>
 
             <Surface>
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                 Impact
               </p>
 
@@ -264,7 +264,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
                     key={metric}
                     className="grid grid-cols-[auto_1fr] gap-3 rounded-[1.1rem] border border-stone-200 bg-[#f7f3ec]/70 px-4 py-3"
                   >
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
                       0{index + 1}
                     </span>
                     <p className="text-sm leading-7 text-stone-700">{metric}</p>
@@ -274,7 +274,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
             </Surface>
 
             <Surface>
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                 Stack
               </p>
 
@@ -284,7 +284,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
                     key={tech}
                     className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-[1.1rem] border border-stone-200 bg-[#f7f3ec]/70 px-4 py-3"
                   >
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
                       0{index + 1}
                     </span>
                     <span className="text-sm font-medium text-stone-700">{tech}</span>
@@ -297,7 +297,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
           <div className="grid gap-6">
             <Surface className="p-0">
               <div className="border-b border-stone-200 bg-[#f7f3ec]/70 px-6 py-5">
-                <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
                   Role map
                 </p>
                 <p className="mt-2 text-sm leading-7 text-stone-600">
@@ -307,7 +307,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
 
               <div className="divide-y divide-stone-200 px-6">
                 <div className="py-7">
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                     Context
                   </p>
                   <h2 className="mt-3 text-4xl font-medium tracking-[-0.055em] text-stone-950">
@@ -319,7 +319,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="py-7">
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                     Ownership
                   </p>
                   <h2 className="mt-3 text-4xl font-medium tracking-[-0.055em] text-stone-950">
@@ -337,7 +337,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="py-7">
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                     Signal
                   </p>
                   <h2 className="mt-3 text-4xl font-medium tracking-[-0.055em] text-stone-950">
@@ -352,7 +352,7 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
 
             {item.workstreams && item.workstreams.length > 0 && (
               <Surface>
-                <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
                   Work timeline
                 </p>
 

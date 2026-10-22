@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://dhyey-patel.vercel.app"),
   title: {
-    default: "Dhyey Patel — Software Developer",
+    default: "Dhyey Patel — Software Engineer",
     template: "%s — Dhyey Patel",
   },
   description:
-    "Software developer building full-stack tools, data-driven systems, and applied ML projects.",
+    "Software engineer building production web applications at Eastern Michigan University, with prior Givaudan experience and accepted IEEE research in applied machine learning. Seeking full-time roles after Spring 2027.",
   authors: [{ name: "Dhyey Patel" }],
   creator: "Dhyey Patel",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "TypeScript",
-    "Data Systems",
+    "Machine Learning Research",
     "Machine Learning",
   ],
   icons: {
@@ -41,28 +41,20 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/apple-icon.png",
   },
+  // Preview images come from app/opengraph-image.tsx and app/twitter-image.tsx.
   openGraph: {
-    title: "Dhyey Patel — Software Developer",
+    title: "Dhyey Patel — Software Engineer",
     description:
-      "Software developer building full-stack tools, data-rich interfaces, and practical ML systems through professional experience, shipped projects, and active technical work.",
+      "Production web applications at Eastern Michigan University, internal tools at Givaudan, and accepted IEEE research in applied machine learning.",
     url: "https://dhyey-patel.vercel.app",
     siteName: "Dhyey Patel",
     type: "website",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 627,
-        alt: "Dhyey Patel portfolio homepage hero",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dhyey Patel — Software Developer",
+    title: "Dhyey Patel — Software Engineer",
     description:
-      "Software developer building full-stack tools, data-rich interfaces, and practical ML systems through professional experience, shipped projects, and active technical work.",
-    images: ["/opengraph-image.png"],
+      "Production web applications at Eastern Michigan University, internal tools at Givaudan, and accepted IEEE research in applied machine learning.",
   },
 };
 

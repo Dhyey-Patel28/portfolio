@@ -10,9 +10,9 @@ import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
 export const metadata: Metadata = {
-  title: "Projects | Dhyey Patel",
+  title: "Projects",
   description:
-    "Shipped and recruiter-safe projects across data visualization, full-stack products, algorithms, ML, and data engineering.",
+    "Projects by Dhyey Patel: deployed full-stack and frontend applications, a hackathon prototype, class and course projects, and work in progress, each labelled with its status and team context.",
 };
 
 function PillLink({
@@ -70,8 +70,8 @@ function ProjectCard({
       <div className="flex min-h-[150px] flex-col justify-between gap-6">
         <div className="flex items-start justify-between gap-5">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-stone-400">
-              {featured ? "Featured project" : item.status}
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-stone-500">
+              {featured ? `Featured · ${item.status}` : item.status}
             </p>
 
             <h2 className="mt-5 text-3xl font-medium tracking-[-0.05em] text-stone-950">
@@ -79,7 +79,8 @@ function ProjectCard({
             </h2>
 
             <p className="mt-2 text-sm font-medium text-stone-500">
-              {item.type}
+              {item.context}
+              {item.dates ? ` · ${item.dates}` : ""}
             </p>
           </div>
 
@@ -97,18 +98,28 @@ function ProjectCard({
 
       <div className="mt-6 rounded-[1.5rem] border border-stone-300/80 bg-[#f7f3ec]/90 p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stone-500">
-          Why it matters
+          My role
         </p>
 
         <ul className="mt-4 space-y-3 text-sm leading-7 text-stone-700">
-          {item.proof.map((proof) => (
-            <li key={proof} className="flex gap-3">
+          {item.myRole.map((role) => (
+            <li key={role} className="flex gap-3">
               <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-stone-950" />
-              <span>{proof}</span>
+              <span>{role}</span>
             </li>
           ))}
         </ul>
+
+        {item.teamCredit && (
+          <p className="mt-4 border-t border-stone-300/70 pt-4 text-xs leading-6 text-stone-500">
+            {item.teamCredit}
+          </p>
+        )}
       </div>
+
+      {item.statusNote && (
+        <p className="mt-4 text-xs leading-6 text-stone-500">{item.statusNote}</p>
+      )}
 
       <div className="mt-6 flex flex-wrap gap-2">
         {item.stack.map((tech) => (
@@ -166,15 +177,15 @@ export default function ProjectsPage() {
           <div className="mt-8 grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
             <div>
               <h1 className="max-w-4xl text-6xl font-medium leading-[0.9] tracking-[-0.075em] text-stone-950 sm:text-8xl">
-                Shipped pieces of how I think.
+                Things I&apos;ve built.
               </h1>
             </div>
 
             <div>
               <p className="text-base leading-8 text-stone-600 sm:text-lg">
-                These projects are separated from professional experience. They show product taste,
-                data visualization, algorithms, ML engineering, and systems work that I built outside
-                a formal workplace.
+                Projects outside my professional roles: solo builds, a hackathon prototype, and class
+                and course projects. Each one is labelled with its status, how it was built, and what
+                I personally did.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -195,11 +206,11 @@ export default function ProjectsPage() {
       <section className="px-6 pb-8 pt-4 md:pb-10">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6">
-            <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+            <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
               Featured projects
             </p>
             <h2 className="mt-4 text-4xl font-medium tracking-[-0.055em] text-stone-950">
-              Polished work with clear product, data, and algorithm signals.
+              Deployed and ready to try.
             </h2>
           </div>
 
@@ -214,11 +225,11 @@ export default function ProjectsPage() {
       <section className="px-6 pb-20 pt-8 md:pb-24 md:pt-10">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6">
-            <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+            <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
               More projects
             </p>
             <h2 className="mt-4 text-4xl font-medium tracking-[-0.055em] text-stone-950">
-              Additional systems across ML, data engineering, and backend workflows.
+              Prototypes, work in progress, and course projects.
             </h2>
           </div>
 

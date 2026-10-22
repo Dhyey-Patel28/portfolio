@@ -6,9 +6,9 @@ import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
 export const metadata: Metadata = {
-  title: "Lab | Dhyey Patel",
+  title: "Lab",
   description:
-    "Active builds and experiments in developer tools, DeFi protocol safety, productivity software, and practical software ideas.",
+    "Prototypes and paused experiments by Dhyey Patel: a self-play Mancala engine, a Python code visualizer, a DeFi safety simulator, and personal apps, each labelled with its status.",
 };
 
 function PillLink({
@@ -71,14 +71,14 @@ export default function LabPage() {
           <div className="mt-8 grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
             <div>
               <h1 className="max-w-4xl text-6xl font-medium leading-[0.9] tracking-[-0.075em] text-stone-950 sm:text-8xl">
-                What I’m still building.
+                Prototypes and experiments.
               </h1>
             </div>
 
             <div>
               <p className="text-base leading-8 text-stone-600 sm:text-lg">
-                The lab is intentionally separate from finished projects. It shows momentum:
-                the developer tools, safety interfaces, and product ideas I am actively shaping.
+                Technically interesting work that is not finished: early prototypes, personal
+                apps, and paused experiments. Each one says what exists today and where it stands.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -101,11 +101,11 @@ export default function LabPage() {
       </section>
 
       <section className="px-6 pb-20 pt-4 md:pb-24">
-        <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 xl:grid-cols-3">
           {labItems.map((item) => (
             <Surface key={item.slug} className="h-full">
               <div className="flex items-start justify-between gap-4">
-                <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
+                <p className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
                   {item.status}
                 </p>
 
@@ -122,26 +122,15 @@ export default function LabPage() {
                 {item.title}
               </h2>
 
+              <p className="mt-2 text-sm font-medium text-stone-500">{item.context}</p>
+
               <p className="mt-4 text-sm leading-7 text-stone-600">{item.summary}</p>
 
-              <div className="mt-6 space-y-5 border-t border-stone-200 pt-5">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-                    Current milestone
-                  </p>
-                  <p className="mt-2 text-sm leading-7 text-stone-600">
-                    {item.currentMilestone}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-                    Technical challenge
-                  </p>
-                  <p className="mt-2 text-sm leading-7 text-stone-600">
-                    {item.technicalChallenge}
-                  </p>
-                </div>
+              <div className="mt-6 border-t border-stone-200 pt-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
+                  Where it stands
+                </p>
+                <p className="mt-2 text-sm leading-7 text-stone-600">{item.whereItStands}</p>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">

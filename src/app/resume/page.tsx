@@ -5,7 +5,7 @@ import SiteNav from "@/components/site-nav";
 
 export const metadata: Metadata = {
   title: "Resume",
-  description: "Resume for Dhyey Patel, software developer.",
+  description: "Resume for Dhyey Patel, software engineer.",
 };
 
 export default function ResumePage() {
@@ -35,8 +35,8 @@ export default function ResumePage() {
               </h1>
 
               <p className="mt-4 max-w-2xl text-base leading-8 text-stone-600">
-                Software developer building full-stack tools, data-rich interfaces,
-                and practical ML systems.
+                Software engineer with production experience at Eastern Michigan
+                University and Givaudan, and accepted IEEE research in applied ML.
               </p>
             </div>
 

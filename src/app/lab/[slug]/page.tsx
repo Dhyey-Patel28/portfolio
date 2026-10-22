@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  FileText,
+  ExternalLink,
   FlaskConical,
-  Lightbulb,
+  Hammer,
   Route,
+  Signpost,
 } from "lucide-react";
 import { labItems } from "@/lib/lab";
 import SiteNav from "@/components/site-nav";
@@ -17,56 +18,6 @@ type PageProps = {
   params: Promise<{
     slug: string;
   }>;
-};
-
-const detailCopy: Record<
-  string,
-  {
-    why: string;
-    exploration: string;
-    next: string;
-    notes: string[];
-  }
-> = {
-  "code-visualizer": {
-    why:
-      "I want this to become a tool that helps people understand code behavior by making execution flow and state changes visible.",
-    exploration:
-      "The hard part is choosing the right level of detail. Too little visualization is useless; too much becomes noise.",
-    next:
-      "The next useful milestone is a small Python-only MVP with examples for loops, branches, function calls, and variable state.",
-    notes: [
-      "Start with Python only instead of trying to support every language too early.",
-      "Keep examples small enough that the visualization teaches instead of distracts.",
-      "Treat the first version as a learning tool, not a full debugger.",
-    ],
-  },
-  "defi-protocol-safety": {
-    why:
-      "Protocol safety is difficult to judge when evidence is scattered across audits, docs, governance, TVL, incidents, and technical assumptions.",
-    exploration:
-      "The central question is how to show risk signals with evidence instead of pretending a single score can explain everything.",
-    next:
-      "The next step is a first risk-signal schema and comparison interface that makes uncertainty visible.",
-    notes: [
-      "Avoid turning protocol safety into a fake confidence score.",
-      "Separate evidence, assumptions, and uncertainty so users can inspect the reasoning.",
-      "Start with a small schema before building a large dashboard.",
-    ],
-  },
-  "momentum-app": {
-    why:
-      "Most productivity tools become task graveyards. I want to explore a calmer system that keeps goals, daily action, and progress connected.",
-    exploration:
-      "The challenge is avoiding feature creep while still making progress feel visible and motivating.",
-    next:
-      "The next step is a focused flow for goals, daily actions, progress history, and habit continuity.",
-    notes: [
-      "Keep the product closer to momentum than task management.",
-      "Make progress visible without turning the app into another dashboard of guilt.",
-      "Resist adding features until the core daily loop feels useful.",
-    ],
-  },
 };
 
 function Surface({
@@ -89,19 +40,19 @@ function NotebookRow({
   number,
   label,
   title,
-  body,
   icon,
+  children,
 }: {
   number: string;
   label: string;
   title: string;
-  body: string;
   icon: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-5 border-t border-stone-200 py-7 md:grid-cols-[4rem_1fr]">
+    <div className="grid gap-5 border-t border-stone-200 py-7 first:border-t-0 md:grid-cols-[4rem_1fr]">
       <div className="self-start pt-1">
-        <span className="font-mono text-xs uppercase tracking-[0.28em] text-stone-400">
+        <span className="font-mono text-xs uppercase tracking-[0.28em] text-stone-500">
           {number}
         </span>
       </div>
@@ -112,7 +63,7 @@ function NotebookRow({
             {icon}
           </div>
 
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
             {label}
           </p>
         </div>
@@ -121,9 +72,7 @@ function NotebookRow({
           {title}
         </h2>
 
-        <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-600">
-          {body}
-        </p>
+        <div className="mt-4 max-w-3xl text-sm leading-7 text-stone-600">{children}</div>
       </div>
     </div>
   );
@@ -141,12 +90,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!item) {
     return {
-      title: "Lab | Dhyey Patel",
+      title: "Lab",
     };
   }
 
   return {
-    title: `${item.title} | Lab | Dhyey Patel`,
+    title: `${item.title} · Lab`,
     description: item.summary,
   };
 }
@@ -158,8 +107,6 @@ export default async function LabDetailPage({ params }: PageProps) {
   if (!item) {
     notFound();
   }
-
-  const copy = detailCopy[item.slug];
 
   return (
     <main
@@ -187,7 +134,7 @@ export default async function LabDetailPage({ params }: PageProps) {
               </h1>
 
               <p className="mt-5 text-sm font-medium text-stone-500">
-                {item.status} · active exploration
+                {item.status} · {item.context}
               </p>
             </div>
 
@@ -196,39 +143,42 @@ export default async function LabDetailPage({ params }: PageProps) {
                 {item.summary}
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="https://github.com/Dhyey-Patel28"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="soft-pill soft-pill-md"
-                >
-                  GitHub
-                  <GitHubIcon className="h-4 w-4" />
-                </a>
-
-                <a href="/resume.pdf" target="_blank" rel="noreferrer" className="soft-pill soft-pill-md">
-                  Resume
-                  <FileText className="h-4 w-4" />
-                </a>
-              </div>
+              {item.links && item.links.length > 0 && (
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {item.links.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="soft-pill soft-pill-md"
+                    >
+                      {link.label}
+                      {link.label === "GitHub" ? (
+                        <GitHubIcon className="h-4 w-4" />
+                      ) : (
+                        <ExternalLink className="h-4 w-4" />
+                      )}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
       <section className="px-6 py-8 md:py-10">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto grid max-w-6xl items-start gap-6 lg:grid-cols-[1.45fr_0.55fr]">
           <Surface className="p-0">
             <div className="border-b border-stone-200 bg-[#f7f3ec]/70 px-6 py-5">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-400">
+                  <p className="font-mono text-xs uppercase tracking-[0.35em] text-stone-500">
                     Experiment notebook
                   </p>
                   <p className="mt-2 text-sm leading-7 text-stone-600">
-                    This is intentionally not presented like finished work. It shows what I am
-                    shaping, what is uncertain, and what I am trying next.
+                    Not finished work: what exists today, where it stands, and what is hard about it.
                   </p>
                 </div>
 
@@ -241,81 +191,64 @@ export default async function LabDetailPage({ params }: PageProps) {
             <div className="px-6">
               <NotebookRow
                 number="01"
-                label="Why this exists"
-                title="The problem is still forming."
-                body={copy?.why ?? item.summary}
-                icon={<Lightbulb className="h-4 w-4" />}
-              />
+                label="Built so far"
+                title="What exists in the code."
+                icon={<Hammer className="h-4 w-4" />}
+              >
+                <ul className="space-y-3 text-stone-700">
+                  {item.built.map((entry) => (
+                    <li key={entry} className="flex gap-3">
+                      <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-stone-950" />
+                      <span>{entry}</span>
+                    </li>
+                  ))}
+                </ul>
+              </NotebookRow>
 
               <NotebookRow
                 number="02"
-                label="Current milestone"
-                title="The next useful version is deliberately small."
-                body={item.currentMilestone}
-                icon={<Route className="h-4 w-4" />}
-              />
+                label="Status"
+                title="Where it stands."
+                icon={<Signpost className="h-4 w-4" />}
+              >
+                <p>{item.whereItStands}</p>
+              </NotebookRow>
 
               <NotebookRow
                 number="03"
                 label="Technical challenge"
-                title="The hard part is choosing what not to build yet."
-                body={copy?.exploration ?? item.technicalChallenge}
+                title="The hard part."
                 icon={<FlaskConical className="h-4 w-4" />}
-              />
+              >
+                <p>{item.technicalChallenge}</p>
+              </NotebookRow>
 
-              <NotebookRow
-                number="04"
-                label="Next step"
-                title="Make the experiment concrete."
-                body={copy?.next ?? item.currentMilestone}
-                icon={<ArrowRight className="h-4 w-4" />}
-              />
+              {item.next && (
+                <NotebookRow
+                  number="04"
+                  label="Next step"
+                  title="The next useful version."
+                  icon={<Route className="h-4 w-4" />}
+                >
+                  <p>{item.next}</p>
+                </NotebookRow>
+              )}
             </div>
           </Surface>
-        </div>
-      </section>
 
-      <section className="px-6 py-8 md:py-10">
-        <div className="mx-auto grid max-w-6xl items-start gap-6 lg:grid-cols-[0.55fr_1.45fr]">
-          <Surface className="self-start">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+          <Surface className="lg:sticky lg:top-28">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
               Stack
             </p>
 
-            <div className="mt-5 space-y-3">
-              {item.stack.map((tech, index) => (
-                <div
+            <div className="mt-5 flex flex-wrap gap-2">
+              {item.stack.map((tech) => (
+                <span
                   key={tech}
-                  className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-[1.1rem] border border-stone-200 bg-[#f7f3ec]/70 px-4 py-3"
+                  className="rounded-full border border-stone-300/80 bg-[#f7f3ec]/70 px-3 py-1.5 text-xs text-stone-600"
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-400">
-                    0{index + 1}
-                  </span>
-
-                  <span className="text-sm font-medium text-stone-700">
-                    {tech}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Surface>
-
-          <Surface>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
-              Working notes
-            </p>
-
-            <div className="mt-5 space-y-4">
-              {(copy?.notes ?? []).map((note, index) => (
-                <div
-                  key={note}
-                  className="grid grid-cols-[auto_1fr] gap-4 rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-4"
-                >
-                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-stone-400">
-                    0{index + 1}
-                  </span>
-                  <p className="text-sm leading-7 text-stone-700">{note}</p>
-                </div>
+                  {tech}
+                </span>
               ))}
             </div>
           </Surface>
@@ -326,17 +259,17 @@ export default async function LabDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-6xl">
           <Surface className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
                 Continue
               </p>
 
               <h2 className="mt-4 text-4xl font-medium tracking-[-0.055em] text-stone-950">
-                Finished work lives somewhere else.
+                Finished work lives elsewhere.
               </h2>
 
               <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-600">
-                The Lab is for active thinking. For polished and shipped work, start with Projects
-                or Experience.
+                The Lab holds prototypes and paused experiments. For deployed work, start with
+                Projects or Experience.
               </p>
             </div>
 

@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/work/ml-systems",
-        destination: "/projects/seglungai",
+        destination: "/research#seglungai",
         permanent: true,
       },
       {
@@ -60,11 +60,26 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/work/momentum-app",
-        destination: "/lab/momentum-app",
+        destination: "/lab",
         permanent: true,
       },
       {
         source: "/work/weather-dashboard",
+        destination: "/lab",
+        permanent: true,
+      },
+      {
+        source: "/projects/seglungai",
+        destination: "/research#seglungai",
+        permanent: true,
+      },
+      {
+        source: "/projects/birdclef-2026",
+        destination: "/research#avian-bioacoustics-transfer-learning",
+        permanent: true,
+      },
+      {
+        source: "/lab/momentum-app",
         destination: "/lab",
         permanent: true,
       },

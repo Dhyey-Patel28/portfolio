@@ -12,9 +12,9 @@ import SiteNav from "@/components/site-nav";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
 export const metadata: Metadata = {
-  title: "About | Dhyey Patel",
+  title: "About",
   description:
-    "About Dhyey Patel: a software engineer building useful systems across full-stack tools, data-rich interfaces, and practical ML work.",
+    "About Dhyey Patel: software engineer, M.S. Computer Science student at Eastern Michigan University, and B.S. Computer Science graduate of the University of Cincinnati.",
 };
 
 const credentials = [
@@ -66,7 +66,7 @@ function Eyebrow({
   return (
     <div className="flex items-center gap-2">
       {icon}
-      <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
+      <p className="font-mono text-xs uppercase tracking-[0.3em] text-stone-500">
         {children}
       </p>
     </div>
@@ -197,7 +197,7 @@ export default function AboutPage() {
       </section>
 
       <section className="px-6 py-8 md:py-10">
-        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto max-w-6xl">
           <Surface>
             <Eyebrow icon={<GraduationCap className="h-4 w-4 text-stone-500" />}>
               Education
@@ -207,45 +207,25 @@ export default function AboutPage() {
               Still learning. Already shipping.
             </h2>
 
-            <div className="mt-5 space-y-5 text-sm leading-7 text-stone-600">
-              <div>
+            <div className="mt-6 grid gap-4 text-sm leading-7 text-stone-600 md:grid-cols-2">
+              <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-5">
                 <p className="font-medium text-stone-800">Eastern Michigan University</p>
-                <p>M.S. Computer Science · 4.0 GPA · Expected Dec 2026</p>
+                <p>M.S. Computer Science · GPA 4.0/4.0</p>
+                <p className="text-stone-500">Aug 2025 – Apr 2027 (expected)</p>
+                <p className="mt-3">
+                  Graduate research in applied machine learning, bioacoustics, transfer learning,
+                  and AI security.{" "}
+                  <Link href="/research" className="font-medium text-stone-800 underline-offset-4 hover:underline">
+                    See research
+                  </Link>
+                </p>
               </div>
 
-              <div>
+              <div className="rounded-[1.25rem] border border-stone-200 bg-[#f7f3ec]/70 p-5">
                 <p className="font-medium text-stone-800">University of Cincinnati</p>
-                <p>B.S. Computer Science · Math Minor · Cum Laude</p>
+                <p>B.S. Computer Science, Minor in Mathematics · GPA 3.744/4.0</p>
+                <p className="text-stone-500">Aug 2020 – May 2025</p>
               </div>
-            </div>
-          </Surface>
-
-          <Surface>
-            <Eyebrow>Selected credentials</Eyebrow>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {credentials.map((credential) => (
-                <a
-                  key={credential.title}
-                  href={credential.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group rounded-[1.25rem] border border-stone-300/80 bg-[#f7f3ec]/80 p-4 transition hover:-translate-y-0.5 hover:border-stone-950 hover:bg-stone-950"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-medium leading-6 text-stone-800 transition group-hover:text-[#fbf8f1]">
-                        {credential.title}
-                      </p>
-                      <p className="mt-2 text-xs leading-5 text-stone-500 transition group-hover:text-[#fbf8f1]/75">
-                        {credential.issuer}
-                      </p>
-                    </div>
-
-                    <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-stone-400 transition group-hover:text-[#fbf8f1]" />
-                  </div>
-                </a>
-              ))}
             </div>
           </Surface>
         </div>
@@ -262,9 +242,9 @@ export default function AboutPage() {
               </h2>
 
               <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-600">
-                I am looking for software engineering internships and new-grad opportunities where I
-                can keep growing on strong teams and contribute across product engineering, internal
-                tools, data-rich interfaces, or practical ML systems.
+                I am looking for full-time software engineering roles after my Spring 2027
+                graduation, on teams building product software, internal tools, data-heavy
+                applications, or applied ML systems.
               </p>
             </div>
 
@@ -293,6 +273,39 @@ export default function AboutPage() {
                 GitHub
                 <GitHubIcon className="h-4 w-4" />
               </a>
+            </div>
+          </Surface>
+        </div>
+      </section>
+
+      <section className="px-6 py-8 md:py-10">
+        <div className="mx-auto max-w-6xl">
+          <Surface>
+            <Eyebrow>Certifications</Eyebrow>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {credentials.map((credential) => (
+                <a
+                  key={credential.title}
+                  href={credential.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-[1.25rem] border border-stone-300/80 bg-[#f7f3ec]/80 p-4 transition hover:-translate-y-0.5 hover:border-stone-950 hover:bg-stone-950"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-medium leading-6 text-stone-800 transition group-hover:text-[#fbf8f1]">
+                        {credential.title}
+                      </p>
+                      <p className="mt-2 text-xs leading-5 text-stone-500 transition group-hover:text-[#fbf8f1]/75">
+                        {credential.issuer}
+                      </p>
+                    </div>
+
+                    <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-stone-500 transition group-hover:text-[#fbf8f1]" />
+                  </div>
+                </a>
+              ))}
             </div>
           </Surface>
         </div>
