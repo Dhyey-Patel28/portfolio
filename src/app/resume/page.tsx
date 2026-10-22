@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink, FileText } from "lucide-react";
 import SiteNav from "@/components/site-nav";
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export default function ResumePage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="hidden flex-wrap gap-3 md:flex">
               <a
                 href="/resume.pdf"
                 target="_blank"
@@ -65,12 +65,62 @@ export default function ResumePage() {
       </section>
 
       <section className="px-6 pb-20 md:pb-24">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-stone-300/80 bg-[#fbf8f1] shadow-sm">
-          <iframe
-            src="/resume.pdf#view=FitH"
-            title="Dhyey Patel resume"
-            className="h-[78vh] w-full"
-          />
+        <div className="mx-auto max-w-6xl">
+          {/* Phone browsers render embedded PDFs poorly, so lead with opening it directly. */}
+          <div className="rounded-[2rem] border border-stone-300/80 bg-[#fbf8f1] p-6 shadow-sm md:hidden">
+            <FileText className="h-6 w-6 text-stone-500" aria-hidden="true" />
+            <p className="mt-4 text-base leading-7 text-stone-700">
+              One-page PDF resume. It opens in your phone&apos;s PDF viewer, where you can
+              zoom and share it.
+            </p>
+            <div className="mt-6 grid gap-3">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2 rounded-full bg-stone-950 px-5 py-4 text-sm font-medium text-[#fbf8f1] transition hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-950/30"
+              >
+                Open PDF
+                <ExternalLink className="h-4 w-4" />
+              </a>
+              <a
+                href="/resume.pdf"
+                download
+                className="soft-pill soft-pill-md justify-center"
+              >
+                Download PDF
+                <Download className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Desktop: size the frame to a full letter-size page plus the viewer
+              toolbar, so the whole page shows and the page itself does the scrolling. */}
+          <div className="mx-auto hidden max-w-[880px] md:block">
+            <div
+              className="relative overflow-hidden rounded-[2rem] border border-stone-300/80 bg-[#fbf8f1] shadow-sm"
+              style={{ paddingTop: "calc(129.4% + 52px)" }}
+            >
+              <iframe
+                src="/resume.pdf#view=FitH&navpanes=0"
+                title="Dhyey Patel resume"
+                className="absolute inset-0 h-full w-full"
+              />
+            </div>
+
+            <p className="mt-4 text-center text-sm text-stone-500">
+              Viewer not loading?{" "}
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-stone-700 underline-offset-4 hover:underline"
+              >
+                Open the PDF in a new tab
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </section>
     </main>

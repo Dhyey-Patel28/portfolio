@@ -224,7 +224,7 @@ function ResearchCard({ item }: { item: ResearchItem }) {
           <div className="mt-8 border-t border-stone-200 pt-6">
             <VisualGallery
               visuals={item.visuals}
-              gridClassName="mx-auto grid max-w-md gap-5"
+              gridClassName="mx-auto grid max-w-4xl gap-5"
             />
           </div>
         )}

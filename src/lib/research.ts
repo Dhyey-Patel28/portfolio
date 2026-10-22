@@ -229,7 +229,7 @@ export const earlierResearch: ResearchItem[] = [
     limitations: [
       "A small dataset from one institution; external validity was not tested.",
       "Slices are segmented independently, ignoring 3D context.",
-      "A research prototype, not a clinical or deployed system. The dataset is under NDA, so no scans are shown here.",
+      "A research prototype, not a clinical or deployed system. Only the de-identified example slices from the presented poster are shown; the dataset itself is not shared.",
     ],
     contributions: [
       "Built the preprocessing, training, evaluation, and inference pipeline.",
@@ -237,7 +237,7 @@ export const earlierResearch: ResearchItem[] = [
     ],
     results: ["Mean Dice of about 0.90 and IoU of about 0.83–0.85 on validation data."],
     pipeline: [
-      { label: "Neonatal chest MRI", detail: "Anonymized slices under NDA; not shown here" },
+      { label: "Neonatal chest MRI", detail: "De-identified 2D slices from a restricted dataset" },
       { label: "Preprocessing", detail: "Normalization plus rotation, translation, and zoom augmentation" },
       { label: "U-Net + ResNet-50", detail: "ImageNet-pretrained encoder with a skip-connected decoder" },
       { label: "Training", detail: "BCE + Dice loss, Adam, early stopping" },
@@ -248,6 +248,22 @@ export const earlierResearch: ResearchItem[] = [
       {
         label: "GitHub",
         href: "https://github.com/Dhyey-Patel28/SegLungAI",
+      },
+      {
+        label: "Full-size poster",
+        href: "/research/seglungai-poster.jpg",
+      },
+      {
+        label: "Poster PDF",
+        href: "/research/seglungai-poster.pdf",
+      },
+    ],
+    visuals: [
+      {
+        src: "/research/seglungai-poster.jpg",
+        alt: "Research poster: Neonatal Lung Segmentation in Chest MRI, A Supervised Deep-Learning Approach, by Dhyey Patel, Alex Matheson, Abdullah Bdaiwi, and Jason Woods, Cincinnati Children's and University of Cincinnati, showing the U-Net pipeline, example segmentation overlays, and evaluation metrics.",
+        caption:
+          "Senior design research poster, presented at the University of Cincinnati in 2025. With Alex Matheson, PhD; Abdullah Bdaiwi, PhD; and Jason Woods, PhD (Cincinnati Children's Hospital Medical Center and University of Cincinnati). Example slices are de-identified; a dataset subject label was removed for this copy.",
       },
     ],
   },
