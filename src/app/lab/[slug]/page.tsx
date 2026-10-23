@@ -11,6 +11,8 @@ import {
   Signpost,
 } from "lucide-react";
 import { labItems } from "@/lib/lab";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, projectSchema, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
@@ -94,10 +96,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  return {
+  return pageMetadata({
     title: `${item.title} · Lab`,
     description: item.summary,
-  };
+    path: `/lab/${item.slug}`,
+  });
 }
 
 export default async function LabDetailPage({ params }: PageProps) {
@@ -114,6 +117,20 @@ export default async function LabDetailPage({ params }: PageProps) {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            name: `${item.title} — Dhyey Patel`,
+            description: item.summary,
+            path: `/lab/${item.slug}`,
+            extra: { mainEntity: projectSchema(item) },
+          }),
+          breadcrumbSchema([
+            { name: "Lab", path: "/lab" },
+            { name: item.title, path: `/lab/${item.slug}` },
+          ])
+        )}
+      />
       <SiteNav active="lab" />
 
       <section className="px-6 pb-8 pt-32 md:pb-10 md:pt-40">

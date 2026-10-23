@@ -8,14 +8,23 @@ import {
   HeartHandshake,
   Sparkles,
 } from "lucide-react";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
-export const metadata: Metadata = {
-  title: "About",
+const meta = {
+  name: "About — Dhyey Patel",
   description:
-    "About Dhyey Patel: software engineer, M.S. Computer Science student at Eastern Michigan University, and B.S. Computer Science graduate of the University of Cincinnati.",
+    "About Dhyey Patel: software engineer, M.S. Computer Science student at Eastern Michigan University (Spring 2027), and B.S. Computer Science graduate of the University of Cincinnati.",
+  path: "/about",
 };
+
+export const metadata: Metadata = pageMetadata({
+  title: "About",
+  description: meta.description,
+  path: meta.path,
+});
 
 const credentials = [
   {
@@ -80,6 +89,12 @@ export default function AboutPage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({ type: "ProfilePage", ...meta, extra: { mainEntity: personRef } }),
+          breadcrumbSchema([{ name: "About", path: "/about" }])
+        )}
+      />
       <SiteNav active="about" />
 
       <section className="px-6 pb-8 pt-32 md:pb-10 md:pt-40">

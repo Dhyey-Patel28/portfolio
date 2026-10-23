@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import JsonLd from "@/components/json-ld";
+import { graph, personSchema, SITE_URL, websiteSchema } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,14 +15,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dhyey-patel.vercel.app"),
+  metadataBase: new URL(SITE_URL),
+  applicationName: "Dhyey Patel",
   title: {
     default: "Dhyey Patel — Software Engineer",
     template: "%s — Dhyey Patel",
   },
   description:
     "Software engineer building production web applications at Eastern Michigan University, with prior Givaudan experience and accepted IEEE research in applied machine learning. Seeking full-time roles after Spring 2027.",
-  authors: [{ name: "Dhyey Patel" }],
+  alternates: { canonical: "/" },
+  authors: [{ name: "Dhyey Patel", url: SITE_URL }],
   creator: "Dhyey Patel",
   keywords: [
     "Dhyey Patel",
@@ -46,9 +50,17 @@ export const metadata: Metadata = {
     title: "Dhyey Patel — Software Engineer",
     description:
       "Production web applications at Eastern Michigan University, internal tools at Givaudan, and accepted IEEE research in applied machine learning.",
-    url: "https://dhyey-patel.vercel.app",
+    url: "/",
     siteName: "Dhyey Patel",
-    type: "website",
+    type: "profile",
+    firstName: "Dhyey",
+    lastName: "Patel",
+    locale: "en_US",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
   twitter: {
     card: "summary_large_image",
@@ -76,7 +88,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <JsonLd data={graph(personSchema, websiteSchema)} />
+        {children}
+      </body>
     </html>
   );
 }

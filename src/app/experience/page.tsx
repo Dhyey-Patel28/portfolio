@@ -2,13 +2,22 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, ExternalLink, FileText } from "lucide-react";
 import { experienceItems } from "@/lib/experience";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 
-export const metadata: Metadata = {
-  title: "Experience",
+const meta = {
+  name: "Experience — Dhyey Patel",
   description:
-    "Professional software engineering experience across university web tools, internal platforms, dashboards, and data-rich workflows.",
+    "Dhyey Patel's software engineering experience: Web Developer at Eastern Michigan University and two co-op terms at Givaudan building internal tools, dashboards, and data workflows.",
+  path: "/experience",
 };
+
+export const metadata: Metadata = pageMetadata({
+  title: "Experience",
+  description: meta.description,
+  path: meta.path,
+});
 
 function PillLink({
   href,
@@ -59,6 +68,12 @@ export default function ExperiencePage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({ type: "CollectionPage", ...meta, extra: { about: personRef } }),
+          breadcrumbSchema([{ name: "Experience", path: "/experience" }])
+        )}
+      />
       <SiteNav active="experience" />
 
       <section className="px-6 pb-10 pt-32 md:pb-12 md:pt-40">

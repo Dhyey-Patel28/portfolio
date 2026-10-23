@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 
 export const socialImageSize = { width: 1200, height: 630 };
-export const socialImageAlt =
-  "Dhyey Patel, software engineer building production web tools.";
+// Defined in seo.ts so pages can reference it without bundling next/og.
+export { socialImageAlt } from "@/lib/seo";
 
 // Shared by opengraph-image and twitter-image so both previews stay identical.
 export function renderSocialImage() {

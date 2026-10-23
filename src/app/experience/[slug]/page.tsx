@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import VisualGallery from "@/components/visual-gallery";
 import { experienceItems } from "@/lib/experience";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 
 type PageProps = {
@@ -127,10 +129,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  return {
-    title: `${item.company} · Experience`,
+  return pageMetadata({
+    title: `${item.role} at ${item.company}`,
     description: item.summary,
-  };
+    path: `/experience/${item.slug}`,
+  });
 }
 
 export default async function ExperienceDetailPage({ params }: PageProps) {
@@ -147,6 +150,20 @@ export default async function ExperienceDetailPage({ params }: PageProps) {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            name: `${item.company} — Dhyey Patel`,
+            description: item.summary,
+            path: `/experience/${item.slug}`,
+            extra: { about: { "@type": "Organization", name: item.company }, mainEntity: personRef },
+          }),
+          breadcrumbSchema([
+            { name: "Experience", path: "/experience" },
+            { name: item.company, path: `/experience/${item.slug}` },
+          ])
+        )}
+      />
       <SiteNav active="experience" />
 
       <section className="px-6 pb-8 pt-32 md:pb-10 md:pt-40">

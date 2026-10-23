@@ -2,14 +2,23 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, FileText } from "lucide-react";
 import { labItems } from "@/lib/lab";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
-export const metadata: Metadata = {
-  title: "Lab",
+const meta = {
+  name: "Lab — Dhyey Patel",
   description:
     "Prototypes and paused experiments by Dhyey Patel: a self-play Mancala engine, a Python code visualizer, a DeFi safety simulator, and personal apps, each labelled with its status.",
+  path: "/lab",
 };
+
+export const metadata: Metadata = pageMetadata({
+  title: "Lab",
+  description: meta.description,
+  path: meta.path,
+});
 
 function PillLink({
   href,
@@ -60,6 +69,12 @@ export default function LabPage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({ type: "CollectionPage", ...meta, extra: { about: personRef } }),
+          breadcrumbSchema([{ name: "Lab", path: "/lab" }])
+        )}
+      />
       <SiteNav active="lab" />
 
       <section className="px-6 pb-10 pt-32 md:pb-12 md:pt-40">

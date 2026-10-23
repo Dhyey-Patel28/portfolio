@@ -25,6 +25,8 @@ import { experienceItems } from "@/lib/experience";
 import { featuredProjects, moreProjects, type ProjectItem } from "@/lib/projects";
 import { publications } from "@/lib/research";
 import SiteNav from "@/components/site-nav";
+import JsonLd from "@/components/json-ld";
+import { graph, personRef, webPageSchema } from "@/lib/seo";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
 const HOMEPAGE_PROJECT_SLUGS = [
@@ -1209,6 +1211,17 @@ export default function Home() {
       tabIndex={-1}
       className="isolate min-h-screen overflow-hidden bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            name: "Dhyey Patel — Software Engineer",
+            description:
+              "Portfolio of Dhyey Patel, software engineer at Eastern Michigan University with prior Givaudan experience and accepted IEEE research.",
+            path: "/",
+            extra: { about: personRef },
+          })
+        )}
+      />
       <SiteNav home />
 
       {journey.mode !== "off" && <JourneyGround />}

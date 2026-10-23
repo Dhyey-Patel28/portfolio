@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import VisualGallery from "@/components/visual-gallery";
 import { featuredProjects, moreProjects } from "@/lib/projects";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbSchema, graph, pageMetadata, projectSchema, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
@@ -89,10 +91,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  return {
+  return pageMetadata({
     title: `${item.title} · Project`,
     description: item.summary,
-  };
+    path: `/projects/${item.slug}`,
+  });
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
@@ -109,6 +112,20 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            name: `${item.title} — Dhyey Patel`,
+            description: item.summary,
+            path: `/projects/${item.slug}`,
+            extra: { mainEntity: projectSchema(item) },
+          }),
+          breadcrumbSchema([
+            { name: "Projects", path: "/projects" },
+            { name: item.title, path: `/projects/${item.slug}` },
+          ])
+        )}
+      />
       <SiteNav active="projects" />
 
       <section className="px-6 pb-8 pt-32 md:pb-10 md:pt-40">

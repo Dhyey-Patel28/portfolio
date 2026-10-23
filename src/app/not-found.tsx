@@ -3,6 +3,8 @@ import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Page Not Found",
+  robots: { index: false, follow: true },
+  alternates: { canonical: null },
 };
 
 export default function NotFound() {

@@ -6,14 +6,23 @@ import {
   moreProjects,
   type ProjectItem,
 } from "@/lib/projects";
+import JsonLd from "@/components/json-ld";
+import { absoluteUrl, breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 
-export const metadata: Metadata = {
-  title: "Projects",
+const meta = {
+  name: "Projects — Dhyey Patel",
   description:
-    "Projects by Dhyey Patel: deployed full-stack and frontend applications, a hackathon prototype, class and course projects, and work in progress, each labelled with its status and team context.",
+    "Software projects by Dhyey Patel: deployed full-stack and frontend applications, a hackathon prototype, class and course projects, and work in progress, each labelled with its status and team context.",
+  path: "/projects",
 };
+
+export const metadata: Metadata = pageMetadata({
+  title: "Projects",
+  description: meta.description,
+  path: meta.path,
+});
 
 function PillLink({
   href,
@@ -166,6 +175,27 @@ export default function ProjectsPage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            type: "CollectionPage",
+            ...meta,
+            extra: {
+              about: personRef,
+              mainEntity: {
+                "@type": "ItemList",
+                itemListElement: [...featuredProjects, ...moreProjects].map((project, index) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  name: project.title,
+                  url: absoluteUrl(`/projects/${project.slug}`),
+                })),
+              },
+            },
+          }),
+          breadcrumbSchema([{ name: "Projects", path: "/projects" }])
+        )}
+      />
       <SiteNav active="projects" />
 
       <section className="px-6 pb-10 pt-32 md:pb-12 md:pt-40">

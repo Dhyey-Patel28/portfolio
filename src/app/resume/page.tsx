@@ -1,11 +1,26 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft, Download, ExternalLink, FileText } from "lucide-react";
+import JsonLd from "@/components/json-ld";
+import { absoluteUrl, breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 
+const meta = {
+  name: "Resume — Dhyey Patel",
+  description:
+    "Resume of Dhyey Patel, software engineer: Web Developer at Eastern Michigan University, former Givaudan intern, M.S. Computer Science (Spring 2027), with accepted IEEE research. View or download the PDF.",
+  path: "/resume",
+};
+
 export const metadata: Metadata = {
-  title: "Resume",
-  description: "Resume for Dhyey Patel, software engineer.",
+  ...pageMetadata({
+    title: "Resume",
+    description: meta.description,
+    path: meta.path,
+    socialTitle: "Dhyey Patel — Resume · Software Engineer",
+  }),
+  // Absolute so searches for "Dhyey Patel resume" match the page title directly.
+  title: { absolute: "Dhyey Patel — Resume · Software Engineer" },
 };
 
 export default function ResumePage() {
@@ -15,6 +30,24 @@ export default function ResumePage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            ...meta,
+            extra: {
+              about: personRef,
+              mainEntity: {
+                "@type": "DigitalDocument",
+                name: "Dhyey Patel — Resume",
+                encodingFormat: "application/pdf",
+                url: absoluteUrl("/resume.pdf"),
+                author: personRef,
+              },
+            },
+          }),
+          breadcrumbSchema([{ name: "Resume", path: "/resume" }])
+        )}
+      />
       <SiteNav />
 
       <section className="px-6 pb-8 pt-32 md:pb-10 md:pt-40">

@@ -8,6 +8,8 @@ import {
   Presentation,
 } from "lucide-react";
 import VisualGallery from "@/components/visual-gallery";
+import JsonLd from "@/components/json-ld";
+import { absoluteUrl, breadcrumbSchema, graph, pageMetadata, personRef, webPageSchema } from "@/lib/seo";
 import SiteNav from "@/components/site-nav";
 import { GitHubIcon } from "@/components/brand-icons";
 import {
@@ -19,11 +21,36 @@ import {
   type ResearchItem,
 } from "@/lib/research";
 
-export const metadata: Metadata = {
-  title: "Research",
+const meta = {
+  name: "Research — Dhyey Patel",
   description:
-    "Applied machine learning research by Dhyey Patel: accepted IEEE MLSP 2026 and IEEE ICTAI 2026 papers on bioacoustics and prompt-injection detection, ongoing traffic-audio research, and earlier neonatal lung MRI segmentation.",
+    "Applied machine learning research by Dhyey Patel: accepted IEEE MLSP 2026 and IEEE ICTAI 2026 papers on bird bioacoustics and prompt-injection detection, ongoing traffic-audio research, and neonatal lung MRI segmentation.",
+  path: "/research",
 };
+
+export const metadata: Metadata = pageMetadata({
+  title: "Research",
+  description: meta.description,
+  path: meta.path,
+});
+
+function articleSchema(item: ResearchItem) {
+  const arxiv = item.links?.find((link) => link.href.includes("arxiv.org"));
+  return {
+    "@type": "ScholarlyArticle",
+    headline: item.title,
+    name: item.title,
+    abstract: item.summary,
+    // Venue and acceptance, e.g. "Accepted · IEEE MLSP 2026".
+    creativeWorkStatus: item.status,
+    author: item.authors.split(", ").map((name) =>
+      name === "Dhyey Patel" ? personRef : { "@type": "Person", name }
+    ),
+    keywords: item.stack.join(", "),
+    url: absoluteUrl(`/research#${item.slug}`),
+    ...(arxiv ? { sameAs: arxiv.href } : {}),
+  };
+}
 
 function Surface({
   children,
@@ -242,6 +269,16 @@ export default function ResearchPage() {
       tabIndex={-1}
       className="min-h-screen bg-[#f7f3ec] text-stone-950"
     >
+      <JsonLd
+        data={graph(
+          webPageSchema({
+            type: "CollectionPage",
+            ...meta,
+            extra: { about: personRef, hasPart: publications.map(articleSchema) },
+          }),
+          breadcrumbSchema([{ name: "Research", path: "/research" }])
+        )}
+      />
       <SiteNav active="research" />
 
       <section className="px-6 pb-10 pt-32 md:pb-12 md:pt-40">
